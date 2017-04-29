@@ -1,5 +1,8 @@
 vendor/
 node_modules/
+public/js/lib
+
+.idea
 
 # Laravel 4 specific
 bootstrap/compiled.php
