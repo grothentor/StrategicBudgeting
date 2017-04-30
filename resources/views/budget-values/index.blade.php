@@ -2,9 +2,7 @@
 
 @section('title', "Значения бюджета $budget->name -> {$budget->subdivision->name}")
 
-@section('content')  
-
-	@include('budget-values.navigation')
+@section('content')
 
 	@include('budget-values.table')
 

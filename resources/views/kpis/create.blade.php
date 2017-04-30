@@ -10,15 +10,15 @@
 
         <div class="form-group">
             {{ Form::label('name', 'Название') }}
-            {{ Form::text('name', Request::input('name'), array('class' => 'form-control')) }}
+            {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
             {{ Form::label('holding_target_value', 'Целевое значение для холдинга') }}
-            {{ Form::text('holding_target_value', Request::input('holding_target_value'), array('class' => 'form-control')) }}
+            {{ Form::text('holding_target_value', request('holding_target_value'), array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('company_target_value', 'Целевое значение для предприятия') }}
-            {{ Form::text('company_target_value', Request::input('company_target_value'), array('class' => 'form-control')) }}
+            {{ Form::label('companyTargetValue', 'Целевое значение для предприятия') }}
+            {{ Form::text('companyTargetValue', request('companyTargetValue'), array('class' => 'form-control')) }}
         </div>
 
         {{ Form::submit('Создать', array('class' => 'btn btn-primary')) }}

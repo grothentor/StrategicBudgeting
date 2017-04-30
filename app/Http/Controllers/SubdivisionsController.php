@@ -14,7 +14,7 @@ class SubdivisionsController extends Controller
      */
     public function index()
     {
-        //
+        return view('subdivisions.index', ['subdivisions' => Subdivision::query()->default()->get()]);
     }
 
     /**
@@ -24,7 +24,7 @@ class SubdivisionsController extends Controller
      */
     public function create()
     {
-        //
+        return view('subdivisions.create');
     }
 
     /**
@@ -35,7 +35,15 @@ class SubdivisionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = auth()->user();
+        $this->validate($request, Subdivision::$validateRules);
+        $fields = $request->all();
+        $fields['company_id'] = $company->id;
+        $subdivision = Subdivision::query()->create($fields);
+
+        session()->flash('flash_message', "Подразделение \"$subdivision->name\" было создано");
+
+        return redirect('/subdivisions');
     }
 
     /**
@@ -46,7 +54,7 @@ class SubdivisionsController extends Controller
      */
     public function show(Subdivision $subdivision)
     {
-        //
+        return view('subdivisions.show', ['subdivision' => $subdivision]);
     }
 
     /**
@@ -57,7 +65,7 @@ class SubdivisionsController extends Controller
      */
     public function edit(Subdivision $subdivision)
     {
-        //
+        return view('subdivisions.edit', ['subdivision' => $subdivision]);
     }
 
     /**
@@ -69,7 +77,15 @@ class SubdivisionsController extends Controller
      */
     public function update(Request $request, Subdivision $subdivision)
     {
-        //
+        $company = auth()->user();
+        $this->validate($request, Subdivision::$validateRules);
+        $fields = $request->all();
+        $fields['company_id'] = $company->id;
+        $subdivision->fill($fields)->save();
+
+        session()->flash('flash_message', "Подразделение \"$subdivision->name\" было обновлено");
+
+        return redirect('/subdivisions');
     }
 
     /**
@@ -80,6 +96,14 @@ class SubdivisionsController extends Controller
      */
     public function destroy(Subdivision $subdivision)
     {
-        //
+        try {
+            $name = $subdivision->name;
+            $subdivision->delete();
+            session()->flash('flash_message', "Подразделение $name удалено");
+        } catch (\Exception $e){
+            session()->flash('flash_message', "Подразделение $subdivision->name не может быть удалено");
+            return back();
+        }
+        return redirect('/subdivisions');
     }
 }

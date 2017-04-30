@@ -13,9 +13,15 @@
 
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('/subdivisions', 'SubdivisionsController');
-    Route::resource('/kpi', 'KpisController');
+    Route::resource('/kpis', 'KpisController');
     Route::resource('/subdivisions/{subdivision}/budgets', 'BudgetsController');
-    Route::resource('/budgets/{budget}/budget-indicators', 'BudgetIndicatorsController');
+    Route::get('/budgets/{budget}/budget-values', 'BudgetValuesController@index');
+    Route::post('/budgets/{budget}/budget-values', 'BudgetValuesController@store');
+    Route::resource('/budget-indicators', 'BudgetIndicatorsController');
 });
 
 Route::get('/', 'HomeController@index');
+
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');

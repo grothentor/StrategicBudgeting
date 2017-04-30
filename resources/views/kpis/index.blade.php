@@ -25,7 +25,7 @@
 	            <td>{{ $value->id }}</td>
 	            <td><a class="" href="{{ url('kpis/' . $value->id) }}">{{ $value->name }}</a></td>
 				<td>{{ $value->holding_target_value }}</td>
-				<td>{{ $value->company_target_value }}</td>
+				<td>{{ $value->companyTargetValue }}</td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('kpis/' . $value->id . '/edit/' ) }}">
 						Редактировать

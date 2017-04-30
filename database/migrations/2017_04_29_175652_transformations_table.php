@@ -18,10 +18,11 @@ class TransformationsTable extends Migration
             $table->increments('id');
 
             /* references */
-            $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')
+            $table->integer('kpi_id')->unsigned();
+            $table->foreign('kpi_id')
                 ->references('id')
-                ->on('companies');
+                ->on('kpis')
+                ->onDelete('cascade');
 
             $table->integer('left_budget_indicator_id')->unsigned()->nullable();
             $table->foreign('left_budget_indicator_id')

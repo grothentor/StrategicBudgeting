@@ -14,7 +14,7 @@ class BudgetIndicatorsController extends Controller
      */
     public function index()
     {
-        //
+        return view('budget-indicators.index', ['budgetIndicators' => BudgetIndicator::query()->get()]);
     }
 
     /**
@@ -24,7 +24,7 @@ class BudgetIndicatorsController extends Controller
      */
     public function create()
     {
-        //
+        return view('budget-indicators.create');
     }
 
     /**
@@ -35,7 +35,12 @@ class BudgetIndicatorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, BudgetIndicator::$validateRules);
+        $budgetIndicator = BudgetIndicator::query()->create($request->all());
+
+        session()->flash('flash_message', "Показатель бюджета \"$budgetIndicator->name\" был создан");
+
+        return redirect('/budget-indicators');
     }
 
     /**
@@ -46,7 +51,7 @@ class BudgetIndicatorsController extends Controller
      */
     public function show(BudgetIndicator $budgetIndicator)
     {
-        //
+        return view('budget-indicators.show', ['budgetIndicator' => $budgetIndicator]);
     }
 
     /**
@@ -57,7 +62,7 @@ class BudgetIndicatorsController extends Controller
      */
     public function edit(BudgetIndicator $budgetIndicator)
     {
-        //
+        return view('budget-indicators', ['budgetIndicator' => $budgetIndicator]);
     }
 
     /**
@@ -69,7 +74,12 @@ class BudgetIndicatorsController extends Controller
      */
     public function update(Request $request, BudgetIndicator $budgetIndicator)
     {
-        //
+        $this->validate($request, BudgetIndicator::$validateRules);
+        $budgetIndicator->fill($request->all());
+
+        session()->flash('flash_message', "Показатель бюджета \"$budgetIndicator->name\" был обновлен");
+
+        return redirect('/budget-indicators');
     }
 
     /**
@@ -80,6 +90,14 @@ class BudgetIndicatorsController extends Controller
      */
     public function destroy(BudgetIndicator $budgetIndicator)
     {
-        //
+        try {
+            $name = $budgetIndicator->name;
+            $budgetIndicator->delete();
+            session()->flash('flash_message', "Показатель бюджета $name удален");
+        } catch (\Exception $e){
+            session()->flash('flash_message', "Показатель бюджета $budgetIndicator->name не может быть удален");
+            return back();
+        }
+        return redirect('/budget-indicators');
     }
 }

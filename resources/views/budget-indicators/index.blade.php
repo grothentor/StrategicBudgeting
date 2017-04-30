@@ -20,7 +20,7 @@
 	        <tr>
 	            <td>{{ $value->id }}</td>
 	            <td><a class="" href="{{ url('budget-indicators/' . $value->id) }}">{{ $value->name }}</a></td>
-				<td>{{ __($budgetIndicators) }}</td>
+				<td>{{ __($value->type) }}</td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('budget-indicators/' . $value->id . '/edit/' ) }}">
 						Редактировать

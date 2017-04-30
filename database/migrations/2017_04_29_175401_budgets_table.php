@@ -20,7 +20,8 @@ class BudgetsTable extends Migration
             $table->integer('subdivision_id')->unsigned();
             $table->foreign('subdivision_id')
                 ->references('id')
-                ->on('subdivisions');
+                ->on('subdivisions')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

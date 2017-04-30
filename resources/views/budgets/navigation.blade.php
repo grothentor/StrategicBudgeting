@@ -1,3 +1,3 @@
 @section('extra-links')
-    <li><a href="{{ url("subdivisions/$subdivision->id/create") }}">Новый Бюджет</a></li>
+    <li><a href="{{ url("subdivisions/$subdivision->id/budgets/create") }}">Новый Бюджет</a></li>
 @endsection

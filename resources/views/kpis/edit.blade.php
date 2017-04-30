@@ -17,8 +17,8 @@
             {{ Form::text('holding_target_value', $kpi->holding_target_value, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('company_target_value', 'Целевое значение для предприятия') }}
-            {{ Form::text('company_target_value', $kpi->company_target_value, array('class' => 'form-control')) }}
+            {{ Form::label('companyTargetValue', 'Целевое значение для предприятия') }}
+            {{ Form::text('companyTargetValue', $kpi->companyTargetValue, array('class' => 'form-control')) }}
         </div>
     
         {{ Form::submit('Обновить', array('class' => 'btn btn-primary')) }}

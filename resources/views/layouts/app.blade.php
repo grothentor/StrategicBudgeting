@@ -28,7 +28,7 @@
     <!-- Header -->
     @include('header')
 
-    <div id="app" ng-app="App">
+    <div id="app" ng-app="App" class="container">
         <div class="messages">
             @include('errors')
         </div>

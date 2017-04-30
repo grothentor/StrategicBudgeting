@@ -10,8 +10,8 @@
 
     <div class="jumbotron text-center">
         <p>
-            <strong>Целевое значение холдинга:</strong> {{ $kpi->company_target_value }}<br>
-            <strong>Целевое значение предприятия:</strong> {{ $kpi->company_target_value }}
+            <strong>Целевое значение холдинга:</strong> {{ $kpi->holding_target_value }}<br>
+            <strong>Целевое значение предприятия:</strong> {{ $kpi->companyTargetValue }}
         </p>
     </div>
 

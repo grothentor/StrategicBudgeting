@@ -21,12 +21,14 @@ class CompaniesKpisTable extends Migration
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')
                 ->references('id')
-                ->on('companies');
+                ->on('companies')
+                ->onDelete('cascade');
 
             $table->integer('kpi_id')->unsigned();
             $table->foreign('kpi_id')
                 ->references('id')
-                ->on('kpis');
+                ->on('kpis')
+                ->onDelete('cascade');
             /* end of references*/
 
             $table->float('target_value');

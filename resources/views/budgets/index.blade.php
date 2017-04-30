@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Бюджеты для $subdivision->name)
+@section('title', "Бюджеты для $subdivision->name")
 
 @section('content')  
 

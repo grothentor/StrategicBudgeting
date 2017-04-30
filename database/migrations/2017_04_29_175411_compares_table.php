@@ -22,17 +22,20 @@ class ComparesTable extends Migration
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')
                 ->references('id')
-                ->on('companies');
+                ->on('companies')
+                ->onDelete('cascade');
 
             $table->integer('left_kpi_id')->unsigned();
             $table->foreign('left_kpi_id')
                 ->references('id')
-                ->on('kpis');
+                ->on('kpis')
+                ->onDelete('cascade');
 
             $table->integer('right_kpi_id')->unsigned();
             $table->foreign('right_kpi_id')
                 ->references('id')
-                ->on('kpis');
+                ->on('kpis')
+                ->onDelete('cascade');
             /* end of references*/
 
             $table->timestamps();

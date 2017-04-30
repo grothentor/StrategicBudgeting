@@ -4,19 +4,19 @@
 
 @section('content')  
 
-    @include('budgetIndicators.navigation')
+    @include('budget-indicators.navigation')
     
     {{ Form::open(array('url' => 'budget-indicators/')) }}
 
         <div class="form-group">
             {{ Form::label('name', 'Название') }}
-            {{ Form::text('name', Request::input('name'), array('class' => 'form-control')) }}
+            {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
             {{ Form::label('type', 'Тип') }}
             {{ Form::select('type',
                 ['income' => 'Доход', 'expense' => 'Расход'],
-                Request::input('type') ?? 'income',
+                request('type') ?? 'income',
                 ['class' => 'form-control']
             ) }}
         </div>

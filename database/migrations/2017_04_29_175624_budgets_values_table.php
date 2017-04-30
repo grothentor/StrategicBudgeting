@@ -16,13 +16,14 @@ class BudgetsValuesTable extends Migration
         if (Schema::hasTable('budgets_values')) return;
         Schema::create('budget_values', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('value');
+            $table->float('value');
 
             /* references */
             $table->integer('budget_id')->unsigned();
             $table->foreign('budget_id')
                 ->references('id')
-                ->on('budgets');
+                ->on('budgets')
+                ->onDelete('cascade');
 
             $table->integer('budget_indicator_id')->unsigned();
             $table->foreign('budget_indicator_id')

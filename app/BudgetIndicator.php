@@ -8,4 +8,9 @@ class BudgetIndicator extends Model
 {
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];
+
+    public static $validateRules = [
+        'name' => 'required',
+        'type' => 'required'
+    ];
 }
