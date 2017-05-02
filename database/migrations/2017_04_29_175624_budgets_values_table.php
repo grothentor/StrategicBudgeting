@@ -31,9 +31,11 @@ class BudgetsValuesTable extends Migration
                 ->on('budget_indicators');
             /* end of references*/
 
-            $table->enum('periodicity', ['once', 'daily', 'monthly', 'quarterly', 'annually']);
+            $table->enum('periodicity', ['once', 'monthly', 'quarterly', 'annually']);
             $table->integer('offset')->unsigned();
             $table->integer('use_length')->nullable();
+            $table->boolean('pay_at_end')
+                ->default(false);
 
             $table->timestamps();
         });

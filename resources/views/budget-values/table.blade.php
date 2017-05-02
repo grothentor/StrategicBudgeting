@@ -3,6 +3,7 @@
     'ng-controller' => 'createBudgetValuesCtrl',
     'ng-init' => "init('" . json_encode(request()->old('new') ?? []) . "')"
 ]) }}
+@php(dump($budget->calculateBudget()))
 <table class="table table-striped table-bordered budgets-values-table">
     <thead>
     <tr>
@@ -10,12 +11,13 @@
         <td>Показатель бюджета</td>
         <td>Значение</td>
         <td>Переодичность</td>
-        <td>Задержка</td>
-        <td>Длительность использования</td>
+        <td title="на оличетво периодов">Задержка</td>
+        <td>Количество транзакций</td>
+        <td>Использование в конце периода</td>
         <td class="actions-col">
             Удалить
             {{ Form::label("checkAll", 'Отметить все') }}
-            {{ Form::checkbox("checkAll", 'Отметить все', false, ['ng-click' => 'deleteAll()']) }}
+            {{ Form::checkbox("checkAll", 'Отметить все', false, ['ng-click' => 'deleteAll($event)']) }}
         </td>
     </tr>
     </thead>
@@ -42,13 +44,17 @@
                 {{ Form::select("old[$value->id][periodicity]",
                     [
                         'once' => __('once'),
-                        'daily'=> __('daily'),
                         'monthly' => __('monthly'),
                         'quarterly' => __('quarterly'),
                         'annually' => __('annually'),
                     ],
                     $value->periodicity,
-                    ['class' => 'form-control']
+                    [
+                        'class' => 'form-control',
+                        'ng-model' => "old[$value->id].periodicity",
+                        'ng-init' => "old[$value->id].periodicity='$value->periodicity'; periodicityChange($value->id)",
+                        'ng-change' => "periodicityChange($value->id)"
+                    ]
                 ) }}
             </td>
             <td>
@@ -60,8 +66,17 @@
             <td>
                 {{ Form::number("old[$value->id][use_length]",
                     $value->use_length,
-                    ['class' => 'form-control']
+                    [
+                        'class' => 'form-control',
+                        'ng-show' => "old[$value->id].showUseLength"
+                    ]
                 ) }}
+            </td>
+            <td>
+            {{ Form::checkbox("old[$value->id][pay_at_end]", 1, $value->pay_at_end, [
+                    'ng-show' => "old[$value->id].showPayAtEnd"
+                ]
+            ) }}
             </td>
             <td>
                 {{ Form::label("old[$value->id][deleted]", 'Удалить') }}
@@ -87,13 +102,17 @@
             <td>{!! Form::select('new[@{{ $index }}][periodicity]',
                 [
                     'once' => __('once'),
-                    'daily'=> __('daily'),
                     'monthly' => __('monthly'),
                     'quarterly' => __('quarterly'),
                     'annually' => __('annually'),
                 ],
                 'monthly',
-                ['class' => 'form-control', 'ng-model' => 'newBudget.periodicity']
+                [
+                    'class' => 'form-control',
+                    'ng-model' => 'newBudget.periodicity',
+                    'ng-change' => 'periodicityChange($index, \'new\')',
+                    'ng-init' => 'periodicityChange($index, \'new\')'
+                ]
             ) !!}
             </td>
             <td>
@@ -105,7 +124,17 @@
             <td>
                 {!! Form::text('new[@{{ $index }}][use_length]',
                     null,
-                    ['class' => 'form-control', 'ng-model' => 'newBudget.use_length']
+                    [
+                        'class' => 'form-control',
+                        'ng-model' => 'newBudget.use_length',
+                        'ng-show' => 'newBudget.showUseLength'
+                    ]
+                ) !!}
+            </td>
+            <td>
+                {!! Form::checkbox('new[@{{ $index}}][pay_at_end]', 1, false, [
+                        'ng-show' => 'newBudget.showPayAtEnd'
+                    ]
                 ) !!}
             </td>
             <td>

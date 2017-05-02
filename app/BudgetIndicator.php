@@ -13,4 +13,17 @@ class BudgetIndicator extends Model
         'name' => 'required',
         'type' => 'required'
     ];
+
+    public static function getAllForValues() {
+        $budgetIndicators = self::query()->pluck('name', 'id')->toArray();
+        $budgetTemplate = Budget::getMonthsArray();
+
+        foreach ($budgetIndicators as $key => &$budgetIndicator) {
+            $budgetIndicators[$key] = [
+                'name' => $budgetIndicator,
+                'values' => $budgetTemplate,
+            ];
+        }
+        return $budgetIndicators;
+    }
 }
