@@ -26,14 +26,15 @@ class Budget extends Model
 
     public function calculateBudget() {
         $budgetIndicators = budgetIndicator::getAllForValues();
-
+        $budgetMonths = Budget::getMonthsArray(BudgetIndicator::query()->pluck('name', 'id')->toArray());
         foreach ($this->budgetValues as $budgetValue) {
             $paysByMonths = $budgetValue->getPaysByMonths();
             foreach ($budgetIndicators[$budgetValue->budget_indicator_id]['values'] as $month => &$oldValue) {
                 $oldValue += $paysByMonths[$month];
+                $budgetMonths[$month][$budgetValue->budget_indicator_id] = $oldValue;
             }
         }
-
+        dump($budgetMonths);
         return $budgetIndicators;
     }
 

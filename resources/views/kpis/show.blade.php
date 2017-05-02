@@ -5,7 +5,14 @@
 @section('content')
 
     @include('kpis.navigation')
-
+    @php(dump($kpi->calculateValue([
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4,
+        5 => 5,
+        6 => 6
+    ])))
     <h1>{{ $kpi->name }}</h1>
 
     <div class="jumbotron text-center">
