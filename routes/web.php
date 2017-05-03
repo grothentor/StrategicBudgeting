@@ -13,6 +13,8 @@
 
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('/subdivisions', 'SubdivisionsController');
+    Route::get('/kpis/compares', 'ComparesController@index');
+    Route::post('/kpis/compares', 'ComparesController@store');
     Route::resource('/kpis', 'KpisController');
     Route::resource('/subdivisions/{subdivision}/budgets', 'BudgetsController');
     Route::get('/budgets/{budget}/budget-values', 'BudgetValuesController@index');

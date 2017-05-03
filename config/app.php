@@ -230,4 +230,5 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
     ],
 
+    'importanceMax' => 100,
 ];

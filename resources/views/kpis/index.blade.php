@@ -12,6 +12,7 @@
 	            <td rowspan="2">Id</td>
 	            <td rowspan="2">Название</td>
 				<td colspan="2">Целевое значение</td>
+				<td rowspan="2">Важность</td>
 	            <td rowspan="2" class="actions-col">Действия</td>
 	        </tr>
 			<tr>
@@ -26,6 +27,7 @@
 	            <td><a class="" href="{{ url('kpis/' . $value->id) }}">{{ $value->name }}</a></td>
 				<td>{{ $value->holding_target_value }}</td>
 				<td>{{ $value->companyTargetValue }}</td>
+				<td>{{ $value->companyImportance }}</td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('kpis/' . $value->id . '/edit/' ) }}">
 						Редактировать

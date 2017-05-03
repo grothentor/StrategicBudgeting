@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Kpi extends Model
 {
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];
-    protected $appends = ['companyTargetValue'];
+    protected $appends = ['companyTargetValue', 'companyImportance']; //TODO: pivot here
 
     private $transformationFunction = '';
 
@@ -22,6 +23,10 @@ class Kpi extends Model
         return $this->hasMany(Transformation::class);
     }
 
+    public function compares() {
+        return $this->hasMany(Compare::class, 'left_kpi_id');
+    }
+
     public function getCompanyTargetValueAttribute() {
         return CompaniesKpi::query()
             ->default()
@@ -29,6 +34,15 @@ class Kpi extends Model
             ->where('company_id', auth()->user()->id)
             ->first()
             ->target_value;
+    }
+
+    public function getCompanyImportanceAttribute() {
+        return CompaniesKpi::query()
+            ->default()
+            ->where('kpi_id', $this->id)
+            ->where('company_id', auth()->user()->id)
+            ->first()
+            ->importance;
     }
 
     public function scopeDefault($query) {
