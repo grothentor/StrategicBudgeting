@@ -2,6 +2,9 @@
 
 @section('title', 'Сравнение КПД')
 
+@push('styles')
+{{ Html::style('js/lib/bootstrap-slider/slider.css') }}
+@endpush
 @section('content')
 
     @include('kpis.navigation')
@@ -22,9 +25,11 @@
                 <tr>
                     <td>{{ $value->name }}</td>
                     <td>
-                        <input name="compares[{{ $value->id }}][{{ $kpis[$index]->id }}]" type="range" min="0"
-                               value="{{ $compares[$kpis[$index]->id] ?? config('app.importanceMax') / 2 }}"
-                               max="{{ config('app.importanceMax') }}">
+                        <input name="compares[{{ $value->id }}][{{ $kpis[$index]->id }}]" type="text"
+                               data-slider-min="-5"
+                               data-slider-value="{{ $compares[$kpis[$index]->id] ?? 0 }}"
+                               data-slider-max="5"
+                               data-slider-step="1">
                     </td>
                     <td>{{ $kpis[$index]->name }}</td>
                 </tr>
@@ -37,3 +42,13 @@
     </div>
     {{ Form::close() }}
 @endsection
+
+@push('scripts')
+{{ Html::script('js/lib/bootstrap-slider/bootstrap-slider.js') }}
+<script>
+    $('[name*="compares"]').slider({
+        formatter: (value) => { Math.abs(value) },
+        ticks_tooltip: true
+    });
+</script>
+@endpush
