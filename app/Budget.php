@@ -21,9 +21,15 @@ class Budget extends Model
     }
 
     public function scopeDefault($query, $subdivision) {
-        return $query->where('subdivision_id', $subdivision->id);
+        return $query->where('subdivision_id', $subdivision->id)
+            ->where('type', '<>', 'current');
     }
 
+    /**
+     * calculate Budget values by indicators and by months
+     *
+     * @return array
+     */
     public function calculateBudget() {
         $budgetIndicators = budgetIndicator::getAllForValues();
         $budgetMonths = Budget::getMonthsArray(BudgetIndicator::query()->pluck('name', 'id')->toArray());
@@ -34,7 +40,7 @@ class Budget extends Model
                 $budgetMonths[$month][$budgetValue->budget_indicator_id] = $oldValue;
             }
         }
-        dump($budgetMonths);
+        //dump($budgetMonths);
         return $budgetIndicators;
     }
 

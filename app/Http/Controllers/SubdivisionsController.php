@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Budget;
 use App\Subdivision;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,11 @@ class SubdivisionsController extends Controller
         $fields = $request->all();
         $fields['company_id'] = $company->id;
         $subdivision = Subdivision::query()->create($fields);
+        Budget::query()->create([
+            'name' => 'Текущий бюджет',
+            'type' => 'current',
+            'subdivision_id' => $subdivision->id
+        ]);
 
         session()->flash('flash_message', "Подразделение \"$subdivision->name\" было создано");
 

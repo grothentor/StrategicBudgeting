@@ -1,3 +1,7 @@
+.formula {
+    overflow-x: auto;
+    white-space: nowrap;
+}
 .footer {
     position: absolute;
     bottom: 0;

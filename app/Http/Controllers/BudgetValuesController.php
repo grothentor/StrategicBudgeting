@@ -50,7 +50,7 @@ class BudgetValuesController extends Controller
                     $validator = Validator::make($budgetValue, BudgetValue::$validateRules);
 
                     if ($validator->fails()) {
-                        return redirect("/budgets/$budget->id/budget-values")
+                        return redirect("/subdivisions/$budget->subdivision_id/budgets/$budget->id")
                             ->withErrors($validator)
                             ->withInput();
                     }
@@ -72,7 +72,7 @@ class BudgetValuesController extends Controller
                 $validator = Validator::make($budgetValue, BudgetValue::$validateRules);
 
                 if ($validator->fails()) {
-                    return redirect("/budgets/$budget->id/budget-values")
+                    return redirect("/subdivisions/$budget->subdivision_id/budgets/$budget->id")
                         ->withErrors($validator)
                         ->withInput();
                 }

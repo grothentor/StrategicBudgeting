@@ -3,7 +3,6 @@
     'ng-controller' => 'createBudgetValuesCtrl',
     'ng-init' => "init('" . json_encode(request()->old('new') ?? []) . "')"
 ]) }}
-@php(dump($budget->calculateBudget()))
 <table class="table table-striped table-bordered budgets-values-table">
     <thead>
     <tr>

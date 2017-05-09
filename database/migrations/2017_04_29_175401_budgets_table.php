@@ -17,6 +17,8 @@ class BudgetsTable extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->enum('type', ['current', 'variant'])
+                ->default('variant');
             $table->integer('subdivision_id')->unsigned();
             $table->foreign('subdivision_id')
                 ->references('id')

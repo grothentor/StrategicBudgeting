@@ -50,8 +50,8 @@ class Kpi extends Model
     }
 
     public function calculateValue(array $budgetValues) {
-        if (empty($this->transformationFunction)) $this->generateTransactionsFunction();
-        $kpi = eval($this->transformationFunction);
+        $transformationFunction = $this->getTransformationFunction();
+        $kpi = eval($transformationFunction);
         return $kpi;
     }
 
@@ -87,5 +87,21 @@ class Kpi extends Model
         } else $value = $transformation->value;
 
         return $value;
+    }
+
+    public function getTransformationFunction($withBudgetIndicators = false) {
+        if (empty($this->transformationFunction)) $this->generateTransactionsFunction();
+        if (!$withBudgetIndicators) return $this->transformationFunction;
+        $budgetIndicators = BudgetIndicator::query()->get();
+        $transformationFunction = substr($this->transformationFunction, 6, -1);
+        foreach ($budgetIndicators as $budgetIndicator) {
+            $budgetName = str_replace(' ', '  ', $budgetIndicator->name);
+            $transformationFunction = str_replace(
+                '$budgetValues[' . $budgetIndicator->id . ']',
+                "\"$budgetName\"",
+                $transformationFunction
+            );
+        }
+        return $transformationFunction;
     }
 }

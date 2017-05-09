@@ -20,6 +20,12 @@ class BudgetsController extends Controller
         $this->checkAccess($subdivision);
         return view('budgets.index', [
             'budgets' => Budget::query()->default($subdivision)->get(),
+            'currentBudget' => Budget::query()
+                ->where('subdivision_id', $subdivision->id)
+                ->where('type', 'current')
+                ->with('budgetValues')
+                ->first(),
+            'budgetIndicators' => BudgetIndicator::query()->pluck('name', 'id'),
             'subdivision' => $subdivision
         ]);
     }
