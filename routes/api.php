@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('calculate', 'KpisController@calculate');
+Route::get('calculate/{companyId}/{budgetValue}', 'KpisController@calculate');
+Route::get('kpis', 'KpisController@index');
+
+Route::get('companies', 'CompaniesController@index');
+Route::post('companies', 'CompaniesController@store');

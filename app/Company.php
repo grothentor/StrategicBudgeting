@@ -9,6 +9,12 @@ class Company extends Authenticatable
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];
 
+    public static $validateRules = [
+        'email' => 'required|email',
+        'password' => 'required',
+        'name' => 'required'
+    ];
+
     public function kpis() {
         return $this->belongsToMany(Kpi::class, 'companies_kpi')
             ->withPivot(['target_value', 'importance']);
