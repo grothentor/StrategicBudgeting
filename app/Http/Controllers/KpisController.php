@@ -90,12 +90,22 @@ class KpisController extends Controller
         $fields = $request->all();
         $companyTargetValue = $fields['companyTargetValue'];
         unset($fields['companyTargetValue']);
-
         $kpi->fill($fields)->save();
-        CompaniesKpi::query()
+
+        $companyKpi = CompaniesKpi::query()
             ->where('company_id', $company->id)
             ->where('kpi_id', $kpi->id)
-            ->update(['target_value' => $companyTargetValue]);
+            ->first();
+        if ($companyKpi) {
+            $companyKpi->target_value = $companyTargetValue;
+            $companyKpi->save();
+        } else {
+            CompaniesKpi::query()->create([
+                'company_id' => $company->id,
+                'kpi_id' => $kpi->id,
+                'target_value' => $companyTargetValue
+            ]);
+        }
 
         session()->flash('flash_message', "КПД $kpi->name был обновлен");
 

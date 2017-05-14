@@ -28,21 +28,21 @@ class Kpi extends Model
     }
 
     public function getCompanyTargetValueAttribute() {
-        return CompaniesKpi::query()
+        $company = CompaniesKpi::query()
             ->default()
             ->where('kpi_id', $this->id)
             ->where('company_id', auth()->user()->id)
-            ->first()
-            ->target_value;
+            ->first();
+        return $company ? $company->target_value : null;
     }
 
     public function getCompanyImportanceAttribute() {
-        return CompaniesKpi::query()
+        $company = CompaniesKpi::query()
             ->default()
             ->where('kpi_id', $this->id)
             ->where('company_id', auth()->user()->id)
-            ->first()
-            ->importance;
+            ->first();
+        return $company ? $company->importance : null;
     }
 
     public function scopeDefault($query) {

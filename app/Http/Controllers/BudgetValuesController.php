@@ -48,8 +48,10 @@ class BudgetValuesController extends Controller
                     unset ($budgetValue['edited']);
                     $budgetValue['budget_id'] = $budget->id;
                     $validator = Validator::make($budgetValue, BudgetValue::$validateRules);
+                    if (!($budgetValue['value'] || ($budgetValue['singular_value'] && $budgetValue['count'])))
+                        $validator->errors()->add('value', 'You must enter or value, or count and singular value');
 
-                    if ($validator->fails()) {
+                    if ($validator->errors()->all()) {
                         return redirect("/subdivisions/$budget->subdivision_id/budgets/$budget->id")
                             ->withErrors($validator)
                             ->withInput();
@@ -71,7 +73,10 @@ class BudgetValuesController extends Controller
             foreach ($newBudgetValues as $budgetValue) {
                 $validator = Validator::make($budgetValue, BudgetValue::$validateRules);
 
-                if ($validator->fails()) {
+                if (!($budgetValue['value'] || ($budgetValue['singular_value'] && $budgetValue['count'])))
+                    $validator->errors()->add('value', 'You must enter or value, or count and singular value');
+
+                if ($validator->errors()->all()) {
                     return redirect("/subdivisions/$budget->subdivision_id/budgets/$budget->id")
                         ->withErrors($validator)
                         ->withInput();

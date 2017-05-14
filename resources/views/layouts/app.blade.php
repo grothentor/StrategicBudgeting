@@ -11,7 +11,7 @@
     <title>{{ config('app.name') }} | @yield('title')</title>
 
     <!-- Styles -->
-    {{ Html::style('css/app.css') }}
+    {{ Html::style('js/lib/bootstrap/dist/css/bootstrap.css') }}
     {{ Html::style('js/lib/datepicker/css/datepicker.css') }}
     {{ Html::style('css/style.css') }}
 

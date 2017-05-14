@@ -1,6 +1,6 @@
 (function() {
     app.controller('createBudgetValuesCtrl', function($scope) {
-        $scope.new = [];
+        $scope.budgetValues = [];
         $scope.old = [];
         $scope.addNewBudgetValue = function (e) {
             e.preventDefault();
@@ -54,5 +54,56 @@
                 $scope.old[id].showPayAtEnd = showPayAtEnd;
             }
         };
+
+        $scope.changeValueType = function (e) {
+            let hiddenClass = 'hidden',
+                $row = $(e.currentTarget).closest('tr'),
+                $valueHolder = $row.find('.value-holder'),
+                $byCountHolders = $row.find('.by-count-holder');
+
+            if (!$valueHolder.hasClass(hiddenClass)) {
+                let newId;
+                if (newId = $row.attr('data-new-id')) {
+                    $scope.budgetValues[newId].dataValue = $scope.budgetValues[newId].value;
+                    $scope.budgetValues[newId].value = '';
+
+                    if (void 0 !== $scope.budgetValues[newId].dataSingularValue) {
+                        $scope.budgetValues[newId].singular_value = $scope.budgetValues[newId].dataSingularValue;
+                        $scope.budgetValues[newId].count = $scope.budgetValues[newId].dataCount;
+                    }
+                } else {
+                    let $value = $valueHolder.find('input');
+                    $valueHolder.attr('data-old-data', $value.val());
+                    $value.val('');
+
+                    $byCountHolders.each(function () {
+                        let $this = $(this);
+                        $this.find('input').val($this.data('old-data'));
+                    });
+                }
+            } else {
+                let newId;
+                if (newId = $row.attr('data-new-id')) {
+                    $scope.budgetValues[newId].dataSingularValue = $scope.budgetValues[newId].singular_value;
+                    $scope.budgetValues[newId].dataCount = $scope.budgetValues[newId].count;
+                    $scope.budgetValues[newId].singular_value = '';
+                    $scope.budgetValues[newId].count = '';
+
+                    if (void 0 !== $scope.budgetValues[newId].value) {
+                        $scope.budgetValues[newId].value = $scope.budgetValues[newId].dataValue;
+                    }
+                } else {
+                    $valueHolder.find('input').val($valueHolder.data('old-data'));
+                    $byCountHolders.each(function () {
+                        let $this = $(this);
+                        let $value = $this.find('input');
+                        $this.attr('data-old-data', $value.val());
+                        $value.val('');
+                    });
+                }
+            }
+            $valueHolder.toggleClass(hiddenClass);
+            $byCountHolders.toggleClass(hiddenClass);
+        }
     })
 })();

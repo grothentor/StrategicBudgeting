@@ -17,3 +17,32 @@ html {
 body {
     margin-bottom: 35px;
 }
+.offset {
+    width: 65px;
+}
+.use-length {
+    width: 75px;
+}
+.periodicity {
+    width: 105px;
+}
+.value {
+    width: 200px;
+}
+.singular-value-col {
+    width: 140px;
+}
+.count-col {
+    width: 80px;
+}
+.hidden {
+    display: none;
+}
+.value-holder, .by-count-holder {
+    position: relative;
+}
+.change-value-type {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+}

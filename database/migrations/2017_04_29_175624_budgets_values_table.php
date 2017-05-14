@@ -17,6 +17,8 @@ class BudgetsValuesTable extends Migration
         Schema::create('budget_values', function (Blueprint $table) {
             $table->increments('id');
             $table->float('value');
+            $table->float('singular_value')->nullable();
+            $table->integer('count')->nullable();
 
             /* references */
             $table->integer('budget_id')->unsigned();

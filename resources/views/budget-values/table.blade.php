@@ -6,18 +6,21 @@
 <table class="table table-striped table-bordered budgets-values-table">
     <thead>
     <tr>
-        <td>Id</td>
-        <td>Показатель бюджета</td>
-        <td>Значение</td>
-        <td>Переодичность</td>
-        <td title="на оличетво периодов">Задержка</td>
-        <td>Количество транзакций</td>
-        <td>Использование в конце периода</td>
-        <td class="actions-col">
-            Удалить
-            {{ Form::label("checkAll", 'Отметить все') }}
+        <th rowspan="2">Id</th>
+        <th rowspan="2">Показатель бюджета</th>
+        <th colspan="2">Значение</th>
+        <th rowspan="2">Переодичность</th>
+        <th rowspan="2" title="Сколько периодов от начала формирования не будет использоваться показатель">Задержка</th>
+        <th rowspan="2" title="Количество использований показателя">Количество</th>
+        <th rowspan="2" title="Использование в конце периода">В конце</th>
+        <th rowspan="2" class="actions-col">
+            {{ Form::label("checkAll", 'Удалить', ['title' => 'Отметить все']) }}
             {{ Form::checkbox("checkAll", 'Отметить все', false, ['ng-click' => 'deleteAll($event)']) }}
-        </td>
+        </th>
+    </tr>
+    <tr>
+        <th title="Значение на единицу" class="singular-value-col">За ед.</th>
+        <th title="Количество используемых единиц" class="count-col">Кол-во</th>
     </tr>
     </thead>
     <tbody>
@@ -33,10 +36,28 @@
                     ['class' => 'form-control']
                 ) }}
             </td>
-            <td>
+            @php(dump($value->value))
+            <td colspan="2" class="value-holder"
+                ng-class="'' === '{{ $value->value }}' ? 'hidden' : '' ">
+                <span class="change-value-type glyphicon glyphicon-transfer" ng-click="changeValueType($event)"></span>
                 {{ Form::text("old[$value->id][value]",
                     $value->value,
-                    ['class' => 'form-control']
+                    ['class' => 'form-control value']
+                ) }}
+            </td>
+            <td class="by-count-holder"
+                ng-class="'' === '{{ $value->value }}' ? '' : 'hidden' ">
+                <span class="change-value-type glyphicon glyphicon-transfer" ng-click="changeValueType($event)"></span>
+                {{ Form::text("old[$value->id][singular_value]",
+                    $value->singular_value,
+                    ['class' => 'form-control singular-value']
+                ) }}
+            </td>
+            <td class="by-count-holder"
+                ng-class="'' === '{{ $value->value }}' ? '' : 'hidden' ">
+                {{ Form::text("old[$value->id][count]",
+                    $value->count,
+                    ['class' => 'form-control count']
                 ) }}
             </td>
             <td>
@@ -49,7 +70,7 @@
                     ],
                     $value->periodicity,
                     [
-                        'class' => 'form-control',
+                        'class' => 'form-control periodicity',
                         'ng-model' => "old[$value->id].periodicity",
                         'ng-init' => "old[$value->id].periodicity='$value->periodicity'; periodicityChange($value->id)",
                         'ng-change' => "periodicityChange($value->id)"
@@ -59,14 +80,14 @@
             <td>
                 {{ Form::number("old[$value->id][offset]",
                     $value->offset,
-                    ['class' => 'form-control']
+                    ['class' => 'form-control offset']
                 ) }}
             </td>
             <td>
                 {{ Form::number("old[$value->id][use_length]",
                     $value->use_length,
                     [
-                        'class' => 'form-control',
+                        'class' => 'form-control use-length',
                         'ng-show' => "old[$value->id].showUseLength"
                     ]
                 ) }}
@@ -78,13 +99,12 @@
             ) }}
             </td>
             <td>
-                {{ Form::label("old[$value->id][deleted]", 'Удалить') }}
                 {{ Form::checkbox("old[$value->id][deleted]", 1, false) }}
                 {{ Form::hidden("old[$value->id][edited]", false) }}
             </td>
         </tr>
     @endforeach
-        <tr ng-repeat="newBudget in budgetValues">
+        <tr ng-repeat="newBudget in budgetValues" data-new-id="@{{ $index }}">
             <td>Новый</td>
             <td>
                 {!! Form::select('new[@{{ $index }}][budget_indicator_id]',
@@ -93,11 +113,27 @@
                     ['class' => 'form-control', 'ng-model' => 'newBudget.budget_indicator_id']
                 ) !!}
             </td>
-            <td>{!! Form::text(
-                'new[@{{ $index }}][value]',
-                0,
-                ['class' => 'form-control', 'ng-model' => 'newBudget.value']
-            ) !!}</td>
+            <td colspan="2" class="value-holder">
+                <span class="change-value-type glyphicon glyphicon-transfer" ng-click="changeValueType($event)"></span>
+                {!! Form::text(
+                    'new[@{{ $index }}][value]',
+                    0,
+                    ['class' => 'form-control value', 'ng-model' => 'newBudget.value']
+                ) !!}
+            </td>
+            <td class="by-count-holder hidden">
+                <span class="change-value-type  glyphicon glyphicon-transfer" ng-click="changeValueType($event)"></span>
+                {!! Form::text('new[@{{ $index }}][singular_value]',
+                    '',
+                    ['class' => 'form-control singular-value', 'ng-model' => 'newBudget.singular_value']
+                ) !!}
+            </td>
+            <td class="by-count-holder hidden">
+                {!! Form::text('new[@{{ $index }}][count]',
+                    '',
+                    ['class' => 'form-control count']
+                ) !!}
+            </td>
             <td>{!! Form::select('new[@{{ $index }}][periodicity]',
                 [
                     'once' => __('once'),
@@ -107,7 +143,7 @@
                 ],
                 'monthly',
                 [
-                    'class' => 'form-control',
+                    'class' => 'form-control periodicity',
                     'ng-model' => 'newBudget.periodicity',
                     'ng-change' => 'periodicityChange($index, \'new\')',
                     'ng-init' => 'periodicityChange($index, \'new\')'
@@ -117,22 +153,26 @@
             <td>
                 {!! Form::text('new[@{{ $index }}][offset]',
                     0,
-                    ['class' => 'form-control', 'ng-model' => 'newBudget.offset']
+                    ['class' => 'form-control offset', 'ng-model' => 'newBudget.offset']
                 ) !!}
             </td>
             <td>
                 {!! Form::text('new[@{{ $index }}][use_length]',
                     null,
                     [
-                        'class' => 'form-control',
+                        'class' => 'form-control use-length',
                         'ng-model' => 'newBudget.use_length',
                         'ng-show' => 'newBudget.showUseLength'
                     ]
                 ) !!}
             </td>
             <td>
-                {!! Form::checkbox('new[@{{ $index}}][pay_at_end]', 1, false, [
+                {!! Form::radio('new[@{{ $index}}][pay_at_end]', 1, false, [
                         'ng-show' => 'newBudget.showPayAtEnd'
+                    ]
+                ) !!}
+                {!! Form::radio('new[@{{ $index}}][pay_at_end]', 0, '@{{ !newBudget.showPayAtEnd }}', [
+                        'ng-show' => 'false'
                     ]
                 ) !!}
             </td>

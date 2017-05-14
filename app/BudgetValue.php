@@ -9,7 +9,9 @@ class BudgetValue extends Model
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];
     public static $validateRules = [
-        'value' => 'numeric|required',
+        'value' => 'nullable|numeric',
+        'singular_value' => 'nullable|numeric',
+        'count' => 'nullable|integer',
         'budget_indicator_id' => 'integer|required',
         'offset' => 'required|integer',
         'periodicity' => 'required',
@@ -52,8 +54,9 @@ class BudgetValue extends Model
         $period = 0;
         $offset = $this->offset * $periodLength + ($this->pay_at_end ? $periodLength - 1 : 0) + 1;
         $use_length = $this->use_length ?? count($budgetTemplate) - $offset + 1;
+        $value = null !== $this->value ? $this->value : $this->count * $this->singular_value;
         do {
-            $budgetTemplate[$offset + $period * $periodLength] = $this->value;
+            $budgetTemplate[$offset + $period * $periodLength] = $value;
             $period++;
         } while ($period < $use_length && $offset + $period * $periodLength <= count($budgetTemplate));
         return $budgetTemplate;

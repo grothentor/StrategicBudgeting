@@ -90,7 +90,7 @@ class BudgetsController extends Controller
     {
         $this->checkAccess($subdivision, $budget);
         return view('budgets.edit', [
-            'subdivisions' => $subdivision,
+            'subdivision' => $subdivision,
             'budget' => $budget
         ]);
     }
