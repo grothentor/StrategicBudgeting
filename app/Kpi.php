@@ -49,7 +49,8 @@ class Kpi extends Model
         return $query;
     }
 
-    public function calculateValue(array $budgetValues) {
+    public function calculateValue(array $budgetValues, array $startValues = []) {
+        $endValues = $budgetValues;
         $transformationFunction = $this->getTransformationFunction();
         $kpi = eval($transformationFunction);
         return $kpi;
@@ -60,7 +61,10 @@ class Kpi extends Model
         foreach($this->transformations as $transformation) {
             $right = $this->getTransformationValue('right', $transformation, $transformations, $budgetVariable);
             $left = $this->getTransformationValue('left', $transformation, $transformations, $budgetVariable);
-
+            if ($left === $right && '*' != $transformation->operation) { //delta function
+                $left = str_replace($budgetVariable, 'endValues', $left);
+                $right = str_replace($budgetVariable, 'startValues', $right);
+            }
             $transformations[$transformation->id] = [
                 'value' => "$left $transformation->operation $right",
                 'operation' => $transformation->operation,
@@ -79,7 +83,7 @@ class Kpi extends Model
             $value = $transformations[$transformation->$sideTransformation]['value'];
 
             if (in_array($transformation->operation, ['*', '/']) &&
-                in_array($transformations[$transformation->$sideTransformation]['operation'], ['+', '-'])) {
+                in_array($transformations[$transformation->$sideTransformation]['operation'], ['+', '-', '/'])) {
                 $value = "($value)";
             }
         } elseif ($transformation->$sideBudget) {
@@ -101,7 +105,19 @@ class Kpi extends Model
                 "\"$budgetName\"",
                 $transformationFunction
             );
+            $transformationFunction = str_replace(
+                '$startValues[' . $budgetIndicator->id . ']',
+                "\"$budgetName\"_\"на начало\"",
+                $transformationFunction
+            );
+            $transformationFunction = str_replace(
+                '$endValues[' . $budgetIndicator->id . ']',
+                "\"$budgetName\"_\"на конец\"",
+                $transformationFunction
+            );
         }
+        $transformationFunction = str_replace('$startValues',"\"Начало Периода\"", $transformationFunction);
+        $transformationFunction = str_replace('$endValues',"'Конец Периода\"'", $transformationFunction);
         return $transformationFunction;
     }
 }

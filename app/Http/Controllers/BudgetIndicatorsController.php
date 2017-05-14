@@ -62,7 +62,7 @@ class BudgetIndicatorsController extends Controller
      */
     public function edit(BudgetIndicator $budgetIndicator)
     {
-        return view('budget-indicators', ['budgetIndicator' => $budgetIndicator]);
+        return view('budget-indicators.edit', ['budgetIndicator' => $budgetIndicator]);
     }
 
     /**
@@ -75,7 +75,7 @@ class BudgetIndicatorsController extends Controller
     public function update(Request $request, BudgetIndicator $budgetIndicator)
     {
         $this->validate($request, BudgetIndicator::$validateRules);
-        $budgetIndicator->fill($request->all());
+        $budgetIndicator->fill($request->all())->save();
 
         session()->flash('flash_message', "Показатель бюджета \"$budgetIndicator->name\" был обновлен");
 

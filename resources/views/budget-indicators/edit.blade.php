@@ -16,7 +16,7 @@
         <div class="form-group">
             {{ Form::label('type', 'Тип') }}
             {{ Form::select('type',
-                ['income' => 'Доход', 'expense' => 'Расход'],
+                ['income' => __('income'), 'expense' => __('expense'), 'other' => __('other')],
                 $budgetIndicator->type,
                 ['class' => 'form-control']
             ) }}

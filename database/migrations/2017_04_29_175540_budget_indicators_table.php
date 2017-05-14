@@ -18,7 +18,7 @@ class BudgetIndicatorsTable extends Migration
             $table->increments('id');
 
             $table->string('name');
-            $table->enum('type', ['income', 'expense']);
+            $table->enum('type', ['income', 'expense', 'other']);
 
             $table->timestamps();
         });
