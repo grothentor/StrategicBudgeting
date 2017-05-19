@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Compare extends Model
+class Compare extends CustomModel
 {
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];

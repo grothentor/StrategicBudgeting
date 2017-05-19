@@ -70,7 +70,7 @@ class BudgetValuesController extends Controller
 
                 return $budgetValue;
             }, $newBudgetValues);
-            foreach ($newBudgetValues as $budgetValue) {
+            foreach ($newBudgetValues as &$budgetValue) {
                 $validator = Validator::make($budgetValue, BudgetValue::$validateRules);
 
                 if (!($budgetValue['value'] || ($budgetValue['singular_value'] && $budgetValue['count'])))
@@ -81,6 +81,7 @@ class BudgetValuesController extends Controller
                         ->withErrors($validator)
                         ->withInput();
                 }
+                if (!isset($budgetValue['pay_at_end'])) $budgetValue['pay_at_end'] = '0';
             }
             BudgetValue::query()->insert($newBudgetValues);
         }

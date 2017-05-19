@@ -1,9 +1,9 @@
 <nav class="navbar navbar-inverse">
-    <div class="navbar-header">
+    <!--<div class="navbar-header">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name') }}
         </a>
-    </div>
+    </div>-->
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             @if (!auth()->guest())

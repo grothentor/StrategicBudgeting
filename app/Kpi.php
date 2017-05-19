@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Kpi extends Model
+class Kpi extends CustomModel
 {
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];

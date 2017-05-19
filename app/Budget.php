@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Budget extends Model
+class Budget extends CustomModel
 {
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];

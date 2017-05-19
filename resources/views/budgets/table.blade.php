@@ -15,7 +15,7 @@
                 <a class="btn btn-small btn-info pull-left" href="{{ url("subdivisions/$subdivision->id/budgets/$value->id/edit/" ) }}">
                     Редактировать
                 </a>
-                {{ Form::open(['url' => 'budgets/' . $value->id, 'method' => 'delete', 'class' => 'pull-left']) }}
+                {{ Form::open(['url' => "subdivisions/$subdivision->id/budgets/$value->id", 'method' => 'delete', 'class' => 'pull-left']) }}
                 {{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
                 {{ Form::close() }}
             </td>

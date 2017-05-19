@@ -7,6 +7,7 @@
     <thead>
     <tr>
         <th rowspan="2">Id</th>
+        <th rowspan="2">Коментарий</th>
         <th rowspan="2">Показатель бюджета</th>
         <th colspan="2">Значение</th>
         <th rowspan="2">Переодичность</th>
@@ -28,7 +29,14 @@
         <tr>
             <td>
                 {{ $value->id }}
-                {{ Form::hidden("old[$value->id][id]", $value->id) }}</td>
+                {{ Form::hidden("old[$value->id][id]", $value->id) }}
+            </td>
+            <td>
+                {{ Form::text("old[$value->id][comment]",
+                    $value->comment,
+                    ['class' => 'form-control comment']
+                ) }}
+            </td>
             <td>
                 {{ Form::select("old[$value->id][budget_indicator_id]",
                     $budgetIndicators,
@@ -36,7 +44,6 @@
                     ['class' => 'form-control']
                 ) }}
             </td>
-            @php(dump($value->value))
             <td colspan="2" class="value-holder"
                 ng-class="'' === '{{ $value->value }}' ? 'hidden' : '' ">
                 <span class="change-value-type glyphicon glyphicon-transfer" ng-click="changeValueType($event)"></span>
@@ -106,6 +113,12 @@
     @endforeach
         <tr ng-repeat="newBudget in budgetValues" data-new-id="@{{ $index }}">
             <td>Новый</td>
+            <td>
+                {!! Form::text('new[@{{ $index }}][comment]',
+                    '',
+                    ['class' => 'form-control comment']
+                ) !!}
+            </td>
             <td>
                 {!! Form::select('new[@{{ $index }}][budget_indicator_id]',
                     $budgetIndicators,
