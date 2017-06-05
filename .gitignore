@@ -1,6 +1,7 @@
 vendor/
 node_modules/
 public/js/lib
+composer.lock
 
 .idea
 

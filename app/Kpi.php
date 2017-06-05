@@ -26,6 +26,16 @@ class Kpi extends CustomModel
         return $this->hasMany(Compare::class, 'left_kpi_id');
     }
 
+    public function companies() {
+        return $this->belongsToMany(Company::class, 'companies_kpis')
+            ->withPivot('target_value', 'importance');
+    }
+
+    public function experiments() {
+        return $this->belongsToMany(Experiment::class, 'experiment_kpi')
+            ->withPivot('target_value', 'importance', 'use', 'result_value');
+    }
+
     public function getCompanyTargetValueAttribute() {
         $company = CompaniesKpi::query()
             ->default()
@@ -118,5 +128,11 @@ class Kpi extends CustomModel
         $transformationFunction = str_replace('$startValues',"\"Начало Периода\"", $transformationFunction);
         $transformationFunction = str_replace('$endValues',"'Конец Периода\"'", $transformationFunction);
         return $transformationFunction;
+    }
+
+    public function scopeWithoutExperiment(Builder $query, $experimentId) {
+        return $query->whereDoesntHave('experiments', function ($q) use ($experimentId) {
+                return $q->where('experiment_id', $experimentId);
+            });
     }
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Company extends CustomModel
+class Company extends Authenticatable
 {
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = ['id'];

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class SubdivisionsTable extends Migration
+class ExperimentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,20 @@ class SubdivisionsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('subdivisions')) return;
-        Schema::create('subdivisions', function (Blueprint $table) {
+        if (Schema::hasTable('experiments')) return;
+        Schema::create('experiments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+
+            /* references */
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies')
                 ->onDelete('cascade');
+            /* end of references */
 
-            $table->double('tax');
-            $table->double('budget');
+            $table->string('name', 150);
+            $table->date('date');
 
             $table->timestamps();
         });
@@ -37,6 +39,9 @@ class SubdivisionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subdivisions');
+        Schema::dropIfExists('experiment_compare');
+        Schema::dropIfExists('experiment_budget');
+        Schema::dropIfExists('experiment_kpi');
+        Schema::dropIfExists('experiments');
     }
 }

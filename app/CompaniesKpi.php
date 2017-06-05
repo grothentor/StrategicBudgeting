@@ -11,11 +11,19 @@ class CompaniesKpi extends CustomModel
         return $query->where('company_id', auth()->user()->id);
     }
 
-    public static function calculateImportance() {
-        $compares = Compare::query()->default()->get();
+    public function kpi() {
+        return $this->belongsTo(Kpi::class);
+    }
+
+    public static function calculateImportance($compares) {
         $allIndicators = [];
         foreach ($compares as $compare) {
-            $value = 0 > $compare->value ? -$compare->value : (0 < $compare->value ? 1 / $compare->value : 1);
+            $value = isset($compare->pivot) ? $compare->pivot->value : $compare->value;
+            if (null === $value) {
+                if (!isset($allIndicators[$compare->left_kpi_id])) $allIndicators[$compare->left_kpi_id] = 0;
+                continue;
+            }
+            $value = 0 > $value ? -$value : (0 < $value ? 1 / $value : 1);
             if (isset($allIndicators[$compare->left_kpi_id]))
                 $allIndicators[$compare->left_kpi_id] *= $value;
             else $allIndicators[$compare->left_kpi_id] = $value;
@@ -26,12 +34,7 @@ class CompaniesKpi extends CustomModel
         $allIndicators = array_map(function ($indicatorValue) use ($powExp) {
             return pow($indicatorValue, $powExp);
         }, $allIndicators);
-        $allImportance = array_sum($allIndicators);
 
-        foreach ($allIndicators as $kpi_id => $importance) {
-            self::query()->where('company_id', auth()->user()->id)
-                ->where('kpi_id', $kpi_id)
-                ->update(['importance' => $importance / $allImportance]);
-        }
+        return $allIndicators;
     }
 }

@@ -20,6 +20,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/budgets/{budget}/budget-values', 'BudgetValuesController@index');
     Route::post('/budgets/{budget}/budget-values', 'BudgetValuesController@store');
     Route::resource('/budget-indicators', 'BudgetIndicatorsController');
+    Route::resource('/experiments', 'ExperimentsController');
+    Route::get('/experiments/{experiment}/compares', 'ExperimentsController@compares');
+    Route::post('/experiments/{experiment}/compares', 'ExperimentsController@updateCompares');
 });
 
 Route::get('/', 'HomeController@index');

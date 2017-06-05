@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class Subdivision extends CustomModel
 {
     protected $dates = ['created_at', 'updated_at'];

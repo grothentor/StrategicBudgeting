@@ -1,0 +1,43 @@
+@php
+$experimentBudgets = $experiment->budgets->mapWithKeys(function($budget) {
+    return [$budget->id => $budget->pivot->use];
+});
+@endphp
+
+<div class="row">
+    <h2>Используемые бюджеты</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Подразделение</th>
+                <th>Бюджеты</th>
+            </tr>
+        </thead>
+        @foreach($subdivisions as $subdivision)
+            <tr>
+                <td>{{ $subdivision->name }}</td>
+                <td>
+                    @if($edit)
+                        <select name="budgets[{{ $subdivision->id }}][]" multiple="multiple">
+                            @foreach($subdivision->budgets as $budget)
+                                @continue('current' === $budget->type)
+                                <option value="{{ $budget->id }}"
+                                        @if((count(old()) && old('budgets') && isset(old("budgets")[$subdivision->id]) && in_array($budget->id, old("budgets")[$subdivision->id]))||
+                                        (!count(old()) && isset($experimentBudgets[$budget->id]) && $experimentBudgets[$budget->id]))
+                                            selected="selected"
+                                        @endif>
+                                    {{ $budget->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @else
+                        @foreach($subdivision->budgets as $key => $budget)
+                            @continue(!isset($experimentBudgets[$budget->id]) || !$experimentBudgets[$budget->id])
+                            {{ $budget->name  }}@if ($loop->last). @else, @endif
+                        @endforeach
+                    @endif
+                </td>
+            </tr>
+        @endforeach
+    </table>
+</div>
