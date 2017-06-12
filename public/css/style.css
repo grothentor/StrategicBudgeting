@@ -53,3 +53,9 @@ body {
 .slider-selection {
     display: none;
 }
+.delete-form {
+    display: inline-block;
+}
+table thead th {
+    text-align: center;
+}

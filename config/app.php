@@ -229,4 +229,6 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
     ],
+
+    'currency' => 0.00000001,
 ];

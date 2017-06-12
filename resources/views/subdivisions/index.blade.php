@@ -9,9 +9,11 @@
 	<table class="table table-striped table-bordered">
 	    <thead>
 	        <tr>
-	            <td>Id</td>
-	            <td>Название</td>
-	            <td class="actions-col">Действия</td>
+	            <th>Id</th>
+	            <th>Название</th>
+				<th>Налог</th>
+				<th>Личные средства</th>
+	            <th class="actions-col">Действия</th>
 	        </tr>
 	    </thead>
 	    <tbody>
@@ -19,6 +21,8 @@
 	        <tr>
 	            <td>{{ $value->id }}</td>
 	            <td><a class="" href="{{ url('subdivisions/' . $value->id) }}">{{ $value->name }}</a></td>
+				<td>{{ $value->tax * 100 }}%</td>
+				<td>{{ $value->budget }}</td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('subdivisions/' . $value->id . '/edit/' ) }}">
 						Редактировать

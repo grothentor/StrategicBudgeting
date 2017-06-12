@@ -4,6 +4,6 @@
 
 @section('content')
 
-	@include('budget-values.table')
+    @include('budget-values.table')
 
 @endsection

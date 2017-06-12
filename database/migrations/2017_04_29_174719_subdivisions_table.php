@@ -23,9 +23,6 @@ class SubdivisionsTable extends Migration
                 ->on('companies')
                 ->onDelete('cascade');
 
-            $table->double('tax');
-            $table->double('budget');
-
             $table->timestamps();
         });
     }

@@ -31,6 +31,7 @@ class ExperimentBudgetTable extends Migration
             /* end of references */
 
             $table->boolean('use')->default(1);
+            $table->boolean('answer')->default(0);
 
             $table->timestamps();
         });

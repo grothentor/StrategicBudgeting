@@ -58,10 +58,22 @@ class Kpi extends CustomModel
         return $query;
     }
 
-    public function calculateValue(array $budgetValues, array $startValues = []) {
-        $endValues = $budgetValues;
+    public function calculateValue(array $budgetValues) {
+        if (isset($budgetValues['penultValues'])) $startValues = $budgetValues['penultValues'];
+        else $startValues = array_fill_keys(array_keys($budgetValues['values']), 0);
+        $company = [];
+        $company['tax'] = $company['startTax'] = $company['endTax'] = $budgetValues['tax'];
+        $company['budget'] = $company['endBudget'] = $budgetValues['money'];
+        if (isset($budgetValues['penultMoney'])) $company['startBudget'] = $budgetValues['penultMoney'];
+        else $company['startBudget'] = 0;
+        $budgetValues = $budgetValues = $budgetValues['values'];
+
         $transformationFunction = $this->getTransformationFunction();
-        $kpi = eval($transformationFunction);
+        try {
+            $kpi = eval($transformationFunction);
+        } catch (\Exception $exception) {
+            $kpi = 9999999999999999;
+        }
         return $kpi;
     }
 
@@ -73,6 +85,8 @@ class Kpi extends CustomModel
             if ($left === $right && '*' != $transformation->operation) { //delta function
                 $left = str_replace($budgetVariable, 'endValues', $left);
                 $right = str_replace($budgetVariable, 'startValues', $right);
+                $left = str_replace("'budget'", '\'endBudget\'', $left);
+                $right = str_replace("'budget'", '\'startBudget\'', $right);
             }
             $transformations[$transformation->id] = [
                 'value' => "$left $transformation->operation $right",
@@ -85,12 +99,17 @@ class Kpi extends CustomModel
     private function getTransformationValue(string $side, $transformation, $transformations, $budgetVariable) {
         $sideTransformation = $side . '_transformation_id';
         $sideBudget = $side . '_budget_indicator_id';
+        $companyFields = array_keys(Company::$kpiFields);
 
         if ($transformation->$sideTransformation) {
             if (!isset($transformations[$transformation->$sideTransformation]))
                 throw new \Exception("bad $side transaction id");
             $value = $transformations[$transformation->$sideTransformation]['value'];
-
+            if (!empty($value)) {
+                foreach ($companyFields as $companyField) {
+                    $value = str_replace("%$companyField%", "\$company['$companyField']", $value);
+                }
+            }
             if (in_array($transformation->operation, ['*', '/']) &&
                 in_array($transformations[$transformation->$sideTransformation]['operation'], ['+', '-', '/'])) {
                 $value = "($value)";
@@ -122,6 +141,23 @@ class Kpi extends CustomModel
             $transformationFunction = str_replace(
                 '$endValues[' . $budgetIndicator->id . ']',
                 "\"$budgetName\"_\"на конец\"",
+                $transformationFunction
+            );
+        }
+        foreach (Company::$kpiFields as $key => $kpiField) {
+            $transformationFunction = str_replace(
+                '$company[\'start' . title_case($key) . "']",
+                "\"$kpiField\"_\"на начало\"",
+                $transformationFunction
+            );
+            $transformationFunction = str_replace(
+                '$company[\'end' . title_case($key) . "']",
+                "\"$kpiField\"_\"на конец\"",
+                $transformationFunction
+            );
+            $transformationFunction = str_replace(
+                "\$company['$key']",
+                "\"$kpiField\"",
                 $transformationFunction
             );
         }

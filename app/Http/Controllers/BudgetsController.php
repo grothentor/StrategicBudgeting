@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Budget;
 use App\BudgetIndicator;
+use App\BudgetValue;
 use App\Subdivision;
 use Illuminate\Http\Request;
 
@@ -147,5 +148,38 @@ class BudgetsController extends Controller
         if ($subdivision->company_id != auth()->user()->id ||
             ($budget && $budget->subdivision_id != $subdivision->id)
         ) abort(403);
+    }
+
+    public function duplicate(Budget $budget) {
+        $subdivision = $budget->subdivision;
+        $this->checkAccess($subdivision, $budget);
+        return view('budgets.duplicate', [
+            'subdivision' => $subdivision,
+            'budget' => $budget,
+            'subdivisions' => Subdivision::query()
+                ->where('company_id', $subdivision->company_id)
+                ->pluck('name', 'id'),
+        ]);
+    }
+
+    public function storeDuplicate(Budget $budget, Request $request) {
+        $this->checkAccess($budget->subdivision, $budget);
+
+        $this->validate($request, Budget::$validateRules);
+        $fields = $request->all();
+        $newBudget = Budget::query()->create($fields);
+
+        $budgetValues = $budget->budgetValues
+            ->map(function ($budgetValue) use ($newBudget) {
+                $budgetValue = $budgetValue->toArray();
+                unset($budgetValue['id']);
+                $budgetValue['budget_id'] = $newBudget->id;
+                return $budgetValue;
+            })
+            ->all();
+
+        BudgetValue::query()->insert($budgetValues);
+        session()->flash('flash_message', "Бюджет $newBudget->name подразделения \"{$newBudget->subdivision->name}\" дублирован");
+        return redirect("/budgets/$newBudget->id/budget-values");
     }
 }

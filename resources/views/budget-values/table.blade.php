@@ -1,3 +1,8 @@
+@if('current' !== $budget->type)
+    <div class="row text-center">
+        <a class="btn btn-default" href="{{ url("budgets/$budget->id/duplicate") }}">Дублировать</a>
+    </div>
+@endif
 {{ Form::open(['url' => "/budgets/$budget->id/budget-values",
     'ng-app' => 'App',
     'ng-controller' => 'createBudgetValuesCtrl',

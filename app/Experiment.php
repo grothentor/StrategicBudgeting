@@ -9,6 +9,8 @@
 namespace App;
 
 
+use Illuminate\Support\Collection;
+
 class Experiment extends CustomModel
 {
     protected $guarded = ['id'];
@@ -19,11 +21,11 @@ class Experiment extends CustomModel
     ];
 
     public function company() {
-        return $this->belongsTo(Kpi::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function budgets() {
-        return $this->belongsToMany(Budget::class,'experiment_budget')->withPivot('use');
+        return $this->belongsToMany(Budget::class,'experiment_budget')->withPivot('use', 'answer');
     }
 
     public function compares() {
@@ -37,5 +39,28 @@ class Experiment extends CustomModel
 
     public function scopeDefault($query) {
         return $query->where('company_id', auth()->user()->id);
+    }
+
+    public function calculated(bool $value) {
+        $this->calculated = $value;
+        $this->save();
+    }
+
+    public function answerBudgets(Collection $budgets) {
+        $this->budgets->map(function ($budget) use ($budgets) {
+            if ($budgets->contains($budget->id)) $budget->pivot->answer = true;
+            else $budget->pivot->answer = false;
+            $budget->pivot->save();
+        });
+    }
+
+    public function resultKpis(Collection $kpis) {
+        foreach ($kpis as $kpiId => $resultValue) {
+            $kpi = $this->kpis->first(function($kpi) use($kpiId) { return $kpiId === $kpi->id; });
+            $kpi->pivot->result_value = $resultValue;
+            if (isset($kpi->startValue)) unset($kpi->startValue);
+            if (isset($kpi->koef)) unset($kpi->koef);
+            $kpi->pivot->save();
+        }
     }
 }

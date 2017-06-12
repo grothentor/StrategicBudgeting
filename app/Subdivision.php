@@ -20,7 +20,7 @@ class Subdivision extends CustomModel
         return $this->hasMany(Budget::class);
     }
 
-    public function scopeDefault($query) {
+    public function scopeDefault(Builder $query) {
         return $query->where('company_id', auth()->user()->id);
     }
 }

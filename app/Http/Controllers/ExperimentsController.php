@@ -12,7 +12,9 @@ use App\CompaniesKpi;
 use App\Compare;
 use App\Experiment;
 use App\ExperimentKpi;
+use App\Helpers\BudgetingHelper;
 use App\Kpi;
+use App\Services\BudgetingService;
 use App\Subdivision;
 use Illuminate\Http\Request;
 
@@ -91,15 +93,16 @@ class ExperimentsController extends Controller {
      * @param  \App\Experiment  $experiment
      * @return \Illuminate\Http\Response
      */
-    public function show(Experiment $experiment)
+    public function show(Experiment $experiment, BudgetingService $budgetingService)
     {
         $experiment->load('budgets', 'kpis');
         $subdivisions = Subdivision::query()
             ->default()
             ->with('budgets')
             ->get();
-
         $kpis = Kpi::query()->withoutExperiment($experiment->id)->get();
+
+        $budgets = $budgetingService->calculateBudgets($experiment, $subdivisions);
 
         return view('experiments.show', [
             'experiment' => $experiment,
@@ -158,6 +161,7 @@ class ExperimentsController extends Controller {
         unset($fields['budgets']);
         unset($fields['kpis']);
 
+        $experiment->calculated = false;
         $experiment->fill($fields)->save();
         $budgets = Budget::query()->whereHas('subdivision', function ($q) use($company) {
             $q->where('company_id', $company->id);
@@ -215,6 +219,12 @@ class ExperimentsController extends Controller {
                 ->where('kpi_id', $kpi_id)
                 ->update(['importance' => $importance / $allImportance]);
         }
-        return redirect("/experiments/$experiment->id/compares");
+        $experiment->calculated(false);
+        return redirect("/experiments/$experiment->id");
+    }
+
+    public function calculate(Experiment $experiment, BudgetingService $budgetingService) {
+        $budgetingService->calculate($experiment);
+        return redirect("/experiments/$experiment->id");
     }
 }
