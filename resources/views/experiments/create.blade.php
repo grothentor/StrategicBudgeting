@@ -16,6 +16,14 @@
             {{ Form::label('date', 'Дата начала експеримента') }}
             {{ Form::text('date', request('date'), array('class' => 'form-control')) }}
         </div>
+        <div class="form-group">
+            {{ Form::label('tax', 'Налог (какой части лишается компания)') }}
+            {{ Form::text('tax', request('tax'), array('class' => 'form-control')) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('budget', 'Личные средства компании') }}
+            {{ Form::text('budget', request('budget'), array('class' => 'form-control')) }}
+        </div>
 
         {{ Form::submit('Создать', array('class' => 'btn btn-primary')) }}
 

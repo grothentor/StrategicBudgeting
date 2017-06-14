@@ -12,11 +12,11 @@ use App\CompaniesKpi;
 use App\Compare;
 use App\Experiment;
 use App\ExperimentKpi;
-use App\Helpers\BudgetingHelper;
 use App\Kpi;
 use App\Services\BudgetingService;
 use App\Subdivision;
 use Illuminate\Http\Request;
+use ConsoleTVs\Charts\Facades\Charts;
 
 class ExperimentsController extends Controller {
     /**
@@ -102,12 +102,25 @@ class ExperimentsController extends Controller {
             ->get();
         $kpis = Kpi::query()->withoutExperiment($experiment->id)->get();
 
-        $budgets = $budgetingService->calculateBudgets($experiment, $subdivisions);
+        $resultKpis = $budgetingService->calculateKpis($experiment, $subdivisions)->map(function ($kpi) {
+            $targetValues = array_fill(0, count($kpi['values']), false);
+            $targetValues[count($kpi)] = $kpi['targetValue'];
+            return Charts::multi('line', 'chartjs')
+                ->elementLabel('Значение KPI')
+                ->title($kpi['name'])
+                ->dimensions(0, 400)
+                ->colors(['#B71C1C', 'black'])
+                ->template("material")
+                ->dataset('Решение', $kpi['values'])
+                ->dataset('Целевое значение', $targetValues)
+                ->labels(['Стартовое значение', 'Первый год', 'Второй год', 'Третий год']);
+        });
 
         return view('experiments.show', [
             'experiment' => $experiment,
             'subdivisions' => $subdivisions,
-            'kpis' => $kpis
+            'kpis' => $kpis,
+            'kpiCharts' => $resultKpis,
         ]);
     }
 
@@ -226,5 +239,25 @@ class ExperimentsController extends Controller {
     public function calculate(Experiment $experiment, BudgetingService $budgetingService) {
         $budgetingService->calculate($experiment);
         return redirect("/experiments/$experiment->id");
+    }
+    
+    public function savePdf(Experiment $experiment, BudgetingService $budgetingService) {
+        $experiment->load('budgets', 'kpis');
+        $subdivisions = Subdivision::query()
+            ->default()
+            ->with('budgets')
+            ->get();
+        $kpis = Kpi::query()->withoutExperiment($experiment->id)->get();
+
+        $resultKpis = collect();
+
+        $pdf = \PDF::loadView('experiments.show', [
+                'experiment' => $experiment,
+                'subdivisions' => $subdivisions,
+                'kpis' => $kpis,
+                'kpiCharts' => $resultKpis,
+                'pdf' => true,
+            ]);
+        return $pdf->stream(config('app.name') . ". {$experiment->name}.pdf");
     }
 }

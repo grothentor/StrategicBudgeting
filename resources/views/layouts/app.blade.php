@@ -13,6 +13,7 @@
     <!-- Styles -->
     {{ Html::style('js/lib/bootstrap/dist/css/bootstrap.css') }}
     {{ Html::style('js/lib/datepicker/css/datepicker.css') }}
+    {{ Html::style('js/lib/select2/dist/css/select2.min.css') }}
     {{ Html::style('css/style.css') }}
 
     @stack('styles')
@@ -26,7 +27,9 @@
 <body>
 <div id="wrapper">
     <!-- Header -->
-    @include('header')
+    @if (!isset($pdf) || !$pdf)
+        @include('header')
+    @endif
 
     <div id="app" ng-app="App" class="container">
         <div class="messages">
@@ -44,6 +47,7 @@
     {{ Html::script('js/lib/bootstrap/dist/js/bootstrap.min.js') }}
     {{ Html::script('js/lib/angular-bootstrap/ui-bootstrap.min.js') }}
     {{ Html::script('js/lib/datepicker/js/bootstrap-datepicker.js') }}
+    {{ Html::script('js/lib/select2/dist/js/select2.js') }}
     {{ Html::script('js/app/app.js') }}
 
     {{ Html::script('js/scripts.js') }}

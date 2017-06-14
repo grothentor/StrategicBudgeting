@@ -13,13 +13,6 @@ class Company extends Authenticatable
         'email' => 'required|email',
         'password' => 'required',
         'name' => 'required',
-        'tax' => 'required|numeric|min:0|max:1',
-        'budget' => 'required|numeric|min:0',
-    ];
-
-    public static $kpiFields = [
-        'tax' => 'Налог',
-        'budget' => 'Личные средства предприятия'
     ];
 
     public function kpis() {

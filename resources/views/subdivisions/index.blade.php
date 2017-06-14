@@ -11,8 +11,6 @@
 	        <tr>
 	            <th>Id</th>
 	            <th>Название</th>
-				<th>Налог</th>
-				<th>Личные средства</th>
 	            <th class="actions-col">Действия</th>
 	        </tr>
 	    </thead>
@@ -21,8 +19,6 @@
 	        <tr>
 	            <td>{{ $value->id }}</td>
 	            <td><a class="" href="{{ url('subdivisions/' . $value->id) }}">{{ $value->name }}</a></td>
-				<td>{{ $value->tax * 100 }}%</td>
-				<td>{{ $value->budget }}</td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('subdivisions/' . $value->id . '/edit/' ) }}">
 						Редактировать

@@ -29,6 +29,7 @@
     "bootstrap": "^3.3.7",
     "angular": "^1.6.4",
     "datepicker": "*",
-    "bootstrap-slider": "*"
+    "bootstrap-slider": "*",
+    "select2": "^4.0.3"
   }
 }

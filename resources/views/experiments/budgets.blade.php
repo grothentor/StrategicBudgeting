@@ -13,7 +13,7 @@ $experimentBudgets = $experiment->budgets->mapWithKeys(function($budget) {
         <thead>
             <tr>
                 <th>Подразделение</th>
-                <th>Бюджеты (жирным отмечен найденный ответ)</th>
+                <th>Бюджеты @if(!$edit)(жирным отмечен найденный ответ)@endif</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@ $experimentBudgets = $experiment->budgets->mapWithKeys(function($budget) {
                     <td>{{ $subdivision->name }}</td>
                     <td>
                         @if($edit)
-                            <select name="budgets[{{ $subdivision->id }}][]" multiple="multiple">
+                            <select class="select2 form-control" name="budgets[{{ $subdivision->id }}][]" multiple="multiple">
                                 @foreach($subdivision->budgets as $budget)
                                     @continue('current' === $budget->type)
                                     <option value="{{ $budget->id }}"

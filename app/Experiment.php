@@ -17,7 +17,14 @@ class Experiment extends CustomModel
 
     public static $validateRules = [
         'name' => 'required|max:150',
-        'date' => 'date'
+        'date' => 'date',
+        'tax' => 'required|numeric|min:0|max:1',
+        'budget' => 'required|numeric|min:0',
+    ];
+
+    public static $kpiFields = [
+        'tax' => 'Налог',
+        'budget' => 'Собственные средства предприятия'
     ];
 
     public function company() {

@@ -44,6 +44,8 @@
                     @if(!$edit)
                         <td>Нет</td>
                         <td>{{ $kpi->companies[0]->pivot->target_value }}</td>
+                        <td>{{ $kpi->companies[0]->pivot->result_value }}</td>
+                        <td>0</td>
                     @else
                         <td>
                             {{ Form::hidden("kpis[$kpi->id][importance]", old("kpis[$kpi->id][importance]") ?? $kpi->companies[0]->pivot->importance) }}

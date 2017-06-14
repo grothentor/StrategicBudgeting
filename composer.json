@@ -6,9 +6,11 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "consoletvs/charts": "4.*",
+        "doctrine/dbal": "^2.5",
+        "barryvdh/laravel-dompdf": "^0.8.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "doctrine/dbal": "^2.5",
         "laravelcollective/html": "^5.2.0"
     },
     "require-dev": {

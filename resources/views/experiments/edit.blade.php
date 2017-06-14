@@ -16,7 +16,14 @@
             {{ Form::label('date', 'Дата начала експеримента') }}
             {{ Form::text('date', $experiment->date, array('class' => 'form-control')) }}
         </div>
-
+        <div class="form-group">
+            {{ Form::label('tax', 'Налог (какой части лишается компания)') }}
+            {{ Form::text('tax', $experiment->tax, array('class' => 'form-control')) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('budget', 'Личные средства подразделения') }}
+            {{ Form::text('budget', $experiment->budget, array('class' => 'form-control')) }}
+        </div>
         @include('experiments.budgets', ['edit' => true])
         @include('experiments.kpis', ['edit' => true])
     

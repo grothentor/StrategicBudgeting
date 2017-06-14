@@ -12,6 +12,7 @@
 */
 
 Route::group(['middleware' => 'auth'], function() {
+    Route::get('/', 'ExperimentsController@index');
     Route::resource('/subdivisions', 'SubdivisionsController');
     Route::get('/kpis/compares', 'ComparesController@index');
     Route::post('/kpis/compares', 'ComparesController@store');
@@ -23,12 +24,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/budgets/{budget}/budget-values', 'BudgetValuesController@store');
     Route::resource('/budget-indicators', 'BudgetIndicatorsController');
     Route::resource('/experiments', 'ExperimentsController');
+    Route::get('experiments/{experiment}/print', 'ExperimentsController@savePdf');
     Route::get('/experiments/{experiment}/compares', 'ExperimentsController@compares');
     Route::post('/experiments/{experiment}/compares', 'ExperimentsController@updateCompares');
     Route::get('/experiments/{experiment}/calculate', 'ExperimentsController@calculate');
 });
-
-Route::get('/', 'HomeController@index');
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');

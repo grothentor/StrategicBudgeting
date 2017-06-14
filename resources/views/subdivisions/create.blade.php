@@ -12,14 +12,6 @@
             {{ Form::label('name', 'Название') }}
             {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
-        <div class="form-group">
-            {{ Form::label('tax', 'Налог (какой части лишается подразделение)') }}
-            {{ Form::text('tax', request('tax'), array('class' => 'form-control')) }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('budget', 'Личные средства подразделения') }}
-            {{ Form::text('budget', request('budget'), array('class' => 'form-control')) }}
-        </div>
 
         {{ Form::submit('Создать', array('class' => 'btn btn-primary')) }}
 

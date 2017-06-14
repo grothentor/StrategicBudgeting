@@ -66,7 +66,7 @@ class Kpi extends CustomModel
         $company['budget'] = $company['endBudget'] = $budgetValues['money'];
         if (isset($budgetValues['penultMoney'])) $company['startBudget'] = $budgetValues['penultMoney'];
         else $company['startBudget'] = 0;
-        $budgetValues = $budgetValues = $budgetValues['values'];
+        $budgetValues = $endValues = $budgetValues['values'];
 
         $transformationFunction = $this->getTransformationFunction();
         try {
@@ -99,7 +99,7 @@ class Kpi extends CustomModel
     private function getTransformationValue(string $side, $transformation, $transformations, $budgetVariable) {
         $sideTransformation = $side . '_transformation_id';
         $sideBudget = $side . '_budget_indicator_id';
-        $companyFields = array_keys(Company::$kpiFields);
+        $companyFields = array_keys(Experiment::$kpiFields);
 
         if ($transformation->$sideTransformation) {
             if (!isset($transformations[$transformation->$sideTransformation]))
@@ -144,7 +144,7 @@ class Kpi extends CustomModel
                 $transformationFunction
             );
         }
-        foreach (Company::$kpiFields as $key => $kpiField) {
+        foreach (Experiment::$kpiFields as $key => $kpiField) {
             $transformationFunction = str_replace(
                 '$company[\'start' . title_case($key) . "']",
                 "\"$kpiField\"_\"на начало\"",

@@ -27,6 +27,9 @@ class ExperimentsTable extends Migration
 
             $table->string('name', 150);
             $table->date('date');
+            $table->boolean('calculated')->default(0);
+            $table->double('tax')->default(0.22);
+            $table->double('budget')->default(5000);
 
             $table->timestamps();
         });

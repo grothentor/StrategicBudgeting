@@ -18,8 +18,6 @@ class CompaniesTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->double('tax')->default(0.22);
-            $table->double('budget')->default(5000);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -6,4 +6,9 @@
 
         $editCheckBox.val(1);
     });
+    $('.select2').select2({ width: 'element' });
+    $('.print-link').on('click', function (event) {
+        event.preventDefault();
+        window.open($(event.currentTarget).attr('href'), '_blank');
+    });
 })();

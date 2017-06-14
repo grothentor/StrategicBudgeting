@@ -59,3 +59,6 @@ body {
 table thead th {
     text-align: center;
 }
+.select2 {
+    width: 100%!important;
+}
