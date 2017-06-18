@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Новый КПД')
+@section('title', 'Новый КПЭ')
 
 @section('content')  
 

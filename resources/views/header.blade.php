@@ -7,7 +7,7 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             @if (!auth()->guest())
-                <li><a href="{{ URL::to('experiments') }}">Експерименты</a></li>
+                <li><a href="{{ URL::to('experiments') }}">Варианты СБ</a></li>
                 <li><a href="{{ URL::to('subdivisions') }}">Подразделения</a></li>
                 <li><a href="{{ URL::to('kpis') }}">Показатели эффективности</a></li>
                 <li><a href="{{ URL::to('budget-indicators') }}">Показатели бюджетов</a></li>

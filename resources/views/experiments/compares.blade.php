@@ -5,7 +5,7 @@
 @section('content')
 
     @include('experiments.navigation')
-    <h2>Предпочтения КПЕ для '{{ $experiment->name }}'</h2>
+    <h2>Предпочтения КПЭ для '{{ $experiment->name }}'</h2>
     {{ Form::open(['url' => "/experiments/$experiment->id/compares"]) }}
     @include('compares.table', ['kpis' => $experiment->kpis])
     <div class="text-center row">

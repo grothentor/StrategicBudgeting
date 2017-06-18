@@ -82,7 +82,7 @@ class ExperimentsController extends Controller {
         });
         $experiment->kpis()->sync($attach->all());
 
-        session()->flash('flash_message', "Експеримент $experiment->name был создан");
+        session()->flash('flash_message', "Вариант СБ $experiment->name был создан");
 
         return redirect('/experiments');
     }
@@ -185,7 +185,7 @@ class ExperimentsController extends Controller {
         $experiment->budgets()->sync($attach->all());
 
         $experiment->kpis()->sync($kpis->all());
-        session()->flash('flash_message', "Експеримент $experiment->name был обновлен");
+        session()->flash('flash_message', "Вараинт СБ $experiment->name был обновлен");
 
         return redirect('/experiments');
     }
@@ -201,9 +201,9 @@ class ExperimentsController extends Controller {
         try {
             $name = $experiment->name;
             $experiment->delete();
-            session()->flash('flash_message', "Експеремент $name удален");
+            session()->flash('flash_message', "Вариант СБ $name удален");
         } catch (\Exception $e){
-            session()->flash('flash_message', "Експеримент $experiment->name не может быть удален");
+            session()->flash('flash_message', "Вариант СБ $experiment->name не может быть удален");
             return back();
         }
         return redirect('experiments');
@@ -232,6 +232,9 @@ class ExperimentsController extends Controller {
                 ->where('kpi_id', $kpi_id)
                 ->update(['importance' => $importance / $allImportance]);
         }
+        ExperimentKpi::query()->where('experiment_id', $experiment->id)
+            ->whereNotIn('kpi_id', array_keys($allIndicators))
+            ->update(['importance' => 0]);
         $experiment->calculated(false);
         return redirect("/experiments/$experiment->id");
     }

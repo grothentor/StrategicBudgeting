@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Експерименты')
+@section('title', 'Варианты СБ')
 
 @section('content')  
 
@@ -11,7 +11,7 @@
 	        <tr>
 	            <th>Id</th>
 	            <th>Название</th>
-				<th>Дата начала експеримента</th>
+				<th>Дата начала варианта СБ</th>
 				<th>Налог</th>
 				<th>Личные средства</th>
 	            <th class="actions-col">Действия</th>

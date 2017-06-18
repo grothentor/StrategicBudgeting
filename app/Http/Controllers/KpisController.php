@@ -49,7 +49,7 @@ class KpisController extends Controller
             'target_value' => $companyTargetValue
         ]);
 
-        session()->flash('flash_message', "КПД $kpi->name был создан");
+        session()->flash('flash_message', "КПЭ $kpi->name был создан");
 
         return redirect('/kpis');
     }
@@ -107,7 +107,7 @@ class KpisController extends Controller
             ]);
         }
 
-        session()->flash('flash_message', "КПД $kpi->name был обновлен");
+        session()->flash('flash_message', "КПЭ $kpi->name был обновлен");
 
         return redirect('/kpis');
     }
@@ -123,9 +123,9 @@ class KpisController extends Controller
         try {
             $name = $kpi->name;
             $kpi->delete();
-            session()->flash('flash_message', "КПД $name удален");
+            session()->flash('flash_message', "КПЭ $name удален");
         } catch (\Exception $e){
-            session()->flash('flash_message', "КПД $kpi->name не может быть удален");
+            session()->flash('flash_message', "КПЭ $kpi->name не может быть удален");
             return back();
         }
         return redirect('kpis');

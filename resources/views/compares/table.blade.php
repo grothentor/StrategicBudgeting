@@ -1,9 +1,9 @@
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
-        <td>Левый КПД</td>
+        <td>Левый КПЭ</td>
         <td>Предпочтение</td>
-        <td>Правый КПД</td>
+        <td>Правый КПЭ</td>
     </tr>
     </thead>
     <tbody>

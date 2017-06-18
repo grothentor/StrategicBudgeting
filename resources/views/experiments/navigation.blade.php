@@ -1,3 +1,3 @@
 @section('extra-links')
-    <li><a href="{{ url('experiments/create') }}">Новый експеримент</a></li>
+    <li><a href="{{ url('experiments/create') }}">Новый вариант СБ</a></li>
 @endsection

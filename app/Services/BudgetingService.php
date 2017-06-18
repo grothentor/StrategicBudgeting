@@ -14,35 +14,35 @@ class BudgetingService
     private $currentBudget = null;
     private $incomeValues = null;
 
-public function calculate(Experiment $experiment) {
-    $this->experiment = $experiment;
-    $this->subdivisions = $this->getSubdivisionsBudgets();
-    $this->kpis = $this->getKpis();
-    $budgetsVariants = $this->subdivisionVariants();
+    public function calculate(Experiment $experiment) {
+        $this->experiment = $experiment;
+        $this->subdivisions = $this->getSubdivisionsBudgets();
+        $this->kpis = $this->getKpis();
+        $budgetsVariants = $this->subdivisionVariants();
 
-    $result = collect([]);
-    for ($budgetIndex = 0; $budgetIndex < $budgetsVariants->count(); $budgetIndex++) {
-        if (false === $targetValue = $this->calculateTargetValue($budgetsVariants[$budgetIndex])) {
-            $level = $this->isFirstBudget($budgetsVariants, $budgetIndex);
-            while (++$budgetIndex < $budgetsVariants->count() &&
-                $this->isFirstBudget($budgetsVariants, $budgetIndex) !== $level) {}
-            $budgetIndex--;
-        } else {
-            if (!isset($result['targetValue']) || $result['targetValue'] > $targetValue['result']) {
-                $result = collect([
-                    'variant' => $budgetsVariants[$budgetIndex],
-                    'targetValue' => $targetValue['result'],
-                    'kpisValues' => $targetValue['kpisValues'],
-                ]);
+        $result = collect([]);
+        for ($budgetIndex = 0; $budgetIndex < $budgetsVariants->count(); $budgetIndex++) {
+            if (false === $targetValue = $this->calculateTargetValue($budgetsVariants[$budgetIndex])) {
+                $level = $this->getBudgetLevel($budgetsVariants, $budgetIndex);
+                while (++$budgetIndex < $budgetsVariants->count() &&
+                    $this->getBudgetLevel($budgetsVariants, $budgetIndex) !== $level) {}
+                $budgetIndex--;
+            } else {
+                if (!isset($result['targetValue']) || $result['targetValue'] > $targetValue['result']) {
+                    $result = collect([
+                        'variant' => $budgetsVariants[$budgetIndex],
+                        'targetValue' => $targetValue['result'],
+                        'kpisValues' => $targetValue['kpisValues'],
+                    ]);
+                }
             }
         }
-    }
 
-    if (!$result->count()) return back()->withErrors('Задача не имеет решения. На использование заданных бюджетов не хватает средств. Добавьте реальные бюджеты');
-    $experiment->answerBudgets($result['variant']);
-    $experiment->resultKpis($result['kpisValues']);
-    $experiment->calculated(true);
-}
+        if (!$result->count()) return back()->withErrors('Задача не имеет решения. На использование заданных бюджетов не хватает средств. Добавьте реальные бюджеты');
+        $experiment->answerBudgets($result['variant']);
+        $experiment->resultKpis($result['kpisValues']);
+        $experiment->calculated(true);
+    }
 
     public function calculateKpis($experiment, $subdivisions) {
         $budgets = collect();
@@ -267,7 +267,7 @@ public function calculate(Experiment $experiment) {
         return $budgetMoney;
     }
 
-    private function isFirstBudget($budgetVariants, $budgetIndex) {
+    private function getBudgetLevel($budgetVariants, $budgetIndex) {
         foreach ($budgetVariants[$budgetIndex] as $level => $budgetVariant) {
             $firstBudgetId = $this->subdivisions[$level]['budgets']->first()['id'];
             if ($budgetVariant !== $firstBudgetId) return $level;

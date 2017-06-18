@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Новый Експеримент')
+@section('title', 'Новый вариант СБ')
 
 @section('content')  
 
@@ -13,7 +13,7 @@
             {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('date', 'Дата начала експеримента') }}
+            {{ Form::label('date', 'Дата начала Варианта СБ') }}
             {{ Form::text('date', request('date'), array('class' => 'form-control')) }}
         </div>
         <div class="form-group">

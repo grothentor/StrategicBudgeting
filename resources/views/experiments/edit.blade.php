@@ -13,7 +13,7 @@
             {{ Form::text('name', $experiment->name, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('date', 'Дата начала експеримента') }}
+            {{ Form::label('date', 'Дата начала варианта СБ') }}
             {{ Form::text('date', $experiment->date, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">

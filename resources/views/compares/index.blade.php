@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Сравнение КПД')
+@section('title', 'Сравнение КПЭ')
 
 @section('content')
 

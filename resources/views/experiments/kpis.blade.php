@@ -18,8 +18,8 @@
                     <td>{{ $kpi->name }}</td>
                     @if(!$edit)
                         <td>{{ $kpi->pivot->use ? 'Да' : 'Нет' }}</td>
-                        <td>{{ $kpi->pivot->target_value }}</td>
-                        <td>{{ $kpi->pivot->result_value }}</td>
+                        <td>{{ round($kpi->pivot->target_value, 2) }}</td>
+                        <td>{{ round($kpi->pivot->result_value, 2) }}</td>
                         <td>{{ round($kpi->pivot->importance, 2) }}</td>
                     @else
                         <td>

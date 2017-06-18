@@ -36,13 +36,16 @@
                 Сохранить
             </a>
             <a class="btn btn-small btn-default" href="{{ url("experiments/$experiment->id/calculate/" ) }}">
-                Смоделировать
+                Поиск СБ
             </a>
             <a class="btn btn-small btn-default" href="{{ url("experiments/$experiment->id/compares/" ) }}">
                 Сравнения
             </a>
             <a class="btn btn-small btn-info" href="{{ url("experiments/$experiment->id/edit/" ) }}">
                 Редактировать
+            </a>
+            <a class="btn btn-small btn-info" href="{{ url("experiments/$experiment->id/duplicate/" ) }}">
+                Копировать
             </a>
             {{ Form::open(['url' => 'experiments/' . $experiment->id, 'method' => 'delete', 'class' => 'delete-form']) }}
             {{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}

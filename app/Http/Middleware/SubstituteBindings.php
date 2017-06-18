@@ -48,6 +48,7 @@ class SubstituteBindings
             if (is_object($parameter) &&
                 is_subclass_of($parameter, \App\CustomModel::class) &&
                 $parameter->hasAttribute('company_id') &&
+                auth()->user() &&
                 $parameter->company_id !== auth()->user()->id) abort(403);
         }
 
