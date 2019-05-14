@@ -42,12 +42,12 @@ class SubdivisionsController extends Controller
         $fields['company_id'] = $company->id;
         $subdivision = Subdivision::query()->create($fields);
         Budget::query()->create([
-            'name' => 'Текущий бюджет',
+            'name' => __('current_budget'),
             'type' => 'current',
             'subdivision_id' => $subdivision->id
         ]);
 
-        session()->flash('flash_message', "Подразделение \"$subdivision->name\" было создано");
+        session()->flash('flash_message', __('messages.subdivision.created', ['name' => $subdivision->name]));
 
         return redirect('/subdivisions');
     }
@@ -89,7 +89,7 @@ class SubdivisionsController extends Controller
         $fields['company_id'] = $company->id;
         $subdivision->fill($fields)->save();
 
-        session()->flash('flash_message', "Подразделение \"$subdivision->name\" было обновлено");
+        session()->flash('flash_message', __('messages.subdivision.updated', ['name' => $subdivision->name]));
 
         return redirect('/subdivisions');
     }
@@ -105,9 +105,9 @@ class SubdivisionsController extends Controller
         try {
             $name = $subdivision->name;
             $subdivision->delete();
-            session()->flash('flash_message', "Подразделение $name удалено");
+            session()->flash('flash_message', __('messages.subdivision.deleted', ['name' => $subdivision->name]));
         } catch (\Exception $e){
-            session()->flash('flash_message', "Подразделение $subdivision->name не может быть удалено");
+            session()->flash('flash_message', __('messages.subdivision.cant_delete', ['name' => $subdivision->name]));
             return back();
         }
         return redirect('/subdivisions');

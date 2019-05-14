@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Новое подразделение')
+@section('title', __('new_subdivision'))
 
 @section('content')  
 
@@ -9,11 +9,11 @@
     {{ Form::open(array('url' => 'subdivisions/')) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Название') }}
+            {{ Form::label('name', __('title')) }}
             {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
 
-        {{ Form::submit('Создать', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(__('create'), array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 

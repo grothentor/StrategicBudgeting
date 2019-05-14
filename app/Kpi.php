@@ -135,24 +135,24 @@ class Kpi extends CustomModel
             );
             $transformationFunction = str_replace(
                 '$startValues[' . $budgetIndicator->id . ']',
-                "\"$budgetName\"_\"на начало\"",
+                __('start_value', ['name' => $budgetName]),
                 $transformationFunction
             );
             $transformationFunction = str_replace(
                 '$endValues[' . $budgetIndicator->id . ']',
-                "\"$budgetName\"_\"на конец\"",
+                __('end_value', ['name' => $budgetName]),
                 $transformationFunction
             );
         }
         foreach (Experiment::$kpiFields as $key => $kpiField) {
             $transformationFunction = str_replace(
                 '$company[\'start' . title_case($key) . "']",
-                "\"$kpiField\"_\"на начало\"",
+                __('start_value', ['name' => $kpiField]),
                 $transformationFunction
             );
             $transformationFunction = str_replace(
                 '$company[\'end' . title_case($key) . "']",
-                "\"$kpiField\"_\"на конец\"",
+                __('end_value', ['name' => $kpiField]),
                 $transformationFunction
             );
             $transformationFunction = str_replace(
@@ -161,8 +161,8 @@ class Kpi extends CustomModel
                 $transformationFunction
             );
         }
-        $transformationFunction = str_replace('$startValues',"\"Начало Периода\"", $transformationFunction);
-        $transformationFunction = str_replace('$endValues',"'Конец Периода\"'", $transformationFunction);
+        $transformationFunction = str_replace('$startValues',__('period_start'), $transformationFunction);
+        $transformationFunction = str_replace('$endValues',__('period_end'), $transformationFunction);
         return $transformationFunction;
     }
 

@@ -10,9 +10,9 @@
 
     <div class="jumbotron text-center">
         <p>
-            <strong>Целевое значение холдинга:</strong> {{ $kpi->holding_target_value }}<br>
-            <strong>Целевое значение предприятия:</strong> {{ $kpi->companyTargetValue }}<br>
-            <strong>Функция преобразования:</strong>:
+            {{--<strong>Целевое значение холдинга:</strong> {{ $kpi->holding_target_value }}<br>--}}
+            <strong>@lang('target_value'):</strong> {{ $kpi->companyTargetValue }}<br>
+            <strong>@lang('transform_function'):</strong>:
             <div class="formula">
                 `{{ $kpi->getTransformationFunction(true) }}`
             </div>

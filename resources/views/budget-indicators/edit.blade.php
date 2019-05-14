@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Редактирование $budgetIndicator->name")
+@section('title', __('editing', ['name' => $budgetIndicator->name]))
 
 @section('content')  
 
@@ -9,24 +9,24 @@
     {{ Form::open(['url' => 'budget-indicators/' . $budgetIndicator->id, 'method' => 'patch']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Название') }}
+            {{ Form::label('name', __('title')) }}
             {{ Form::text('name', $budgetIndicator->name, array('class' => 'form-control')) }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('type', 'Тип') }}
+            {{ Form::label('type', __('type')) }}
             {{ Form::select('type',
                 ['income' => __('income'), 'expense' => __('expense'), 'other' => __('other')],
                 $budgetIndicator->type,
                 ['class' => 'form-control']
             ) }}
         </div>
-        {{ Form::submit('Обновить', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(__('update'), array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 
     {{ Form::open(['url' => 'budget-indicators/' . $budgetIndicator->id, 'method' => 'delete']) }}
-    	{{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
+    	{{ Form::submit(__('delete'), array('class' => 'btn btn-danger')) }}
 	{{ Form::close() }}
 
 @endsection

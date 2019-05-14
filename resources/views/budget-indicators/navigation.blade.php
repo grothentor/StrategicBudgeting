@@ -1,3 +1,3 @@
 @section('extra-links')
-    <li><a href="{{ url('budget-indicators/create') }}">Новый показатель бюджета</a></li>
+    <li><a href="{{ url('budget-indicators/create') }}">@lang('new_budget_indicator')</a></li>
 @endsection

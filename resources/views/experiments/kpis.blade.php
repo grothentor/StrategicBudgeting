@@ -1,14 +1,14 @@
 <div class="row">
-    <h2>Используемые Kpi</h2>
+    <h2>@lang('using_kpis')</h2>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>КПЭ</th>
-                <th>Используется</th>
-                <th>Целевое значение</th>
+                <th>@lang('kpi')</th>
+                <th>@lang('using')</th>
+                <th>@lang('target_value')</th>
                 @if(!$edit)
-                    <th>Найденное значение</th>
-                    <th>Важность</th>
+                    <th>@lang('found_value')</th>
+                    <th>@lang('importance')</th>
                 @endif
             </tr>
         </thead>
@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ $kpi->name }}</td>
                     @if(!$edit)
-                        <td>{{ $kpi->pivot->use ? 'Да' : 'Нет' }}</td>
+                        <td>{{ $kpi->pivot->use ? __('yes') : __('no') }}</td>
                         <td>{{ round($kpi->pivot->target_value, 2) }}</td>
                         <td>{{ round($kpi->pivot->result_value, 2) }}</td>
                         <td>{{ round($kpi->pivot->importance, 2) }}</td>
@@ -42,7 +42,7 @@
                 <tr>
                     <td>{{ $kpi->name }}</td>
                     @if(!$edit)
-                        <td>Нет</td>
+                        <td>@lang('no')</td>
                         <td>{{ $kpi->companies[0]->pivot->target_value }}</td>
                         <td>{{ $kpi->companies[0]->pivot->result_value }}</td>
                         <td>0</td>

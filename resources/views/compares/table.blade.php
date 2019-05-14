@@ -1,9 +1,9 @@
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
-        <td>Левый КПЭ</td>
-        <td>Предпочтение</td>
-        <td>Правый КПЭ</td>
+        <td>@lang('left_kpi')</td>
+        <td>@lang('preference')</td>
+        <td>@lang('right_kpi')</td>
     </tr>
     </thead>
     <tbody>

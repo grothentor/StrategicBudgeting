@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Новый показатель бюджета')
+@section('title', __('new_budget_indicator'))
 
 @section('content')  
 
@@ -9,11 +9,11 @@
     {{ Form::open(array('url' => 'budget-indicators/')) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Название') }}
+            {{ Form::label('name', __('title')) }}
             {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('type', 'Тип') }}
+            {{ Form::label('type', __('type')) }}
             {{ Form::select('type',
                 ['income' => __('income'), 'expense' => __('expense'), 'other' => __('other')],
                 request('type') ?? 'income',
@@ -21,7 +21,7 @@
             ) }}
         </div>
 
-        {{ Form::submit('Создать', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(__('create'), array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 

@@ -10,7 +10,7 @@
 
     <div class="jumbotron text-center">
         <p>
-            <strong>Тип:</strong> {{ __($budgetIndicator->type) }}
+            <strong>@lang('type'):</strong> {{ __($budgetIndicator->type) }}
         </p>
     </div>
 

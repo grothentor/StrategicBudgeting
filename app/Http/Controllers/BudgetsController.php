@@ -58,7 +58,7 @@ class BudgetsController extends Controller
         $fields['subdivision_id'] = $subdivision->id;
         $budget = Budget::query()->create($fields);
 
-        session()->flash('flash_message', "Бюджет $budget->name подразделения \"$subdivision->name\" создан");
+        session()->flash('flash_message', __('messages.budget.created', ['budget' => $budget->name, 'subdivision' => $subdivision->name]));
 
         return redirect("/budgets/$budget->id/budget-values");
     }
@@ -112,7 +112,7 @@ class BudgetsController extends Controller
         $fields['subdivision_id'] = $subdivision->id;
         $budget->fill($fields)->save();
 
-        session()->flash('flash_message', "Бюджет $budget->name подразделения \"$subdivision->name\" обновлен");
+        session()->flash('flash_message', __('messages.budget.updated', ['budget' => $budget->name, 'subdivision' => $subdivision->name]));
 
         return redirect("/subdivisions/$subdivision->id/budgets");
     }
@@ -130,9 +130,9 @@ class BudgetsController extends Controller
         try {
             $name = $budget->name;
             $budget->delete();
-            session()->flash('flash_message', "Бюджет $name подразделения \"$subdivision->name\" удален");
+            session()->flash('flash_message', __('messages.budget.deleted', ['budget' => $name, 'subdivision' => $subdivision->name]));
         } catch (\Exception $e){
-            session()->flash('flash_message', "Бюджет $name подразделения \"$subdivision->name\" не может быть удален");
+            session()->flash('flash_message', __('messages.budget.cant_delete', ['budget' => $budget->name, 'subdivision' => $subdivision->name]));
             return back();
         }
         return redirect("/subdivisions/$subdivision->id/budgets");
@@ -179,7 +179,7 @@ class BudgetsController extends Controller
             ->all();
 
         BudgetValue::query()->insert($budgetValues);
-        session()->flash('flash_message', "Бюджет $newBudget->name подразделения \"{$newBudget->subdivision->name}\" дублирован");
+        session()->flash('flash_message', __('messages.budget.duplicated', ['budget' => $budget->name, 'subdivision' => $newBudget->subdivision->name]));
         return redirect("/budgets/$newBudget->id/budget-values");
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Подразделения')
+@section('title', __('subdivisions'))
 
 @section('content')  
 
@@ -9,9 +9,9 @@
 	<table class="table table-striped table-bordered">
 	    <thead>
 	        <tr>
-	            <th>Id</th>
-	            <th>Название</th>
-	            <th class="actions-col">Действия</th>
+	            <th>@lang('id')</th>
+	            <th>@lang('title')</th>
+	            <th class="actions-col">@lang('actions')</th>
 	        </tr>
 	    </thead>
 	    <tbody>
@@ -21,10 +21,10 @@
 	            <td><a class="" href="{{ url('subdivisions/' . $value->id) }}">{{ $value->name }}</a></td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('subdivisions/' . $value->id . '/edit/' ) }}">
-						Редактировать
+						@lang('edit')
 					</a>
 	                {{ Form::open(['url' => 'subdivisions/' . $value->id, 'method' => 'delete', 'class' => 'pull-left']) }}
-				    	{{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
+				    	{{ Form::submit(__('delete'), array('class' => 'btn btn-danger')) }}
 					{{ Form::close() }}
 	            </td>
 	        </tr>

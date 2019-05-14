@@ -8,12 +8,12 @@ $experimentBudgets = $experiment->budgets->mapWithKeys(function($budget) {
 @endphp
 
 <div class="row">
-    <h2>Используемые бюджеты</h2>
+    <h2>@lang('using_budgets')</h2>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Подразделение</th>
-                <th>Бюджеты @if(!$edit)(жирным отмечен найденный ответ)@endif</th>
+                <th>@lang('subdivision')</th>
+                <th>@lang('budgets') @if(!$edit) @lang('budgets_edit_tip') @endif</th>
             </tr>
         </thead>
         <tbody>

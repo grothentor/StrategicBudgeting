@@ -82,7 +82,7 @@ class ExperimentsController extends Controller {
         });
         $experiment->kpis()->sync($attach->all());
 
-        session()->flash('flash_message', "Вариант СБ $experiment->name был создан");
+        session()->flash('flash_message', __('messages.experiment.created', ['name' => $experiment->name]));
 
         return redirect('/experiments');
     }
@@ -106,14 +106,14 @@ class ExperimentsController extends Controller {
             $targetValues = array_fill(0, count($kpi['values']), false);
             $targetValues[count($kpi)] = $kpi['targetValue'];
             return Charts::multi('line', 'chartjs')
-                ->elementLabel('Значение KPI')
+                ->elementLabel(__('kpi_value'))
                 ->title($kpi['name'])
                 ->dimensions(0, 400)
                 ->colors(['#B71C1C', 'black'])
                 ->template("material")
-                ->dataset('Решение', $kpi['values'])
-                ->dataset('Целевое значение', $targetValues)
-                ->labels(['Стартовое значение', 'Первый год', 'Второй год', 'Третий год']);
+                ->dataset(__('solution'), $kpi['values'])
+                ->dataset(__('target_value'), $targetValues)
+                ->labels([__('strategic_periods.start'), __('strategic_periods.first'), __('strategic_periods.second'), __('strategic_periods.third')]);
         });
 
         return view('experiments.show', [
@@ -162,7 +162,7 @@ class ExperimentsController extends Controller {
         if (!isset($fields['budgets']) || count($fields['budgets']) !== Subdivision::query()->default()->get()->count())
             return back()
                 ->withInput()
-                ->withErrors(['Каждое подразделение должно иметь хотябы 1 бюджет']);
+                ->withErrors([__('messages.at_least_1_budget')]);
         $budgetValues = collect($fields['budgets'])->reduce(function($result, $budgets) {
             return $result->merge($budgets);
         }, collect([]));
@@ -185,7 +185,7 @@ class ExperimentsController extends Controller {
         $experiment->budgets()->sync($attach->all());
 
         $experiment->kpis()->sync($kpis->all());
-        session()->flash('flash_message', "Вараинт СБ $experiment->name был обновлен");
+        session()->flash('flash_message', __('messages.experiment.updated', ['name' => $experiment->name]));
 
         return redirect('/experiments');
     }
@@ -201,9 +201,9 @@ class ExperimentsController extends Controller {
         try {
             $name = $experiment->name;
             $experiment->delete();
-            session()->flash('flash_message', "Вариант СБ $name удален");
+            session()->flash('flash_message', __('messages.experiment.updated', ['name' => $name]));
         } catch (\Exception $e){
-            session()->flash('flash_message', "Вариант СБ $experiment->name не может быть удален");
+            session()->flash('flash_message', __('messages.experiment.deleted', ['name' => $experiment->name]));
             return back();
         }
         return redirect('experiments');

@@ -38,7 +38,7 @@ class BudgetIndicatorsController extends Controller
         $this->validate($request, BudgetIndicator::$validateRules);
         $budgetIndicator = BudgetIndicator::query()->create($request->all());
 
-        session()->flash('flash_message', "Показатель бюджета \"$budgetIndicator->name\" был создан");
+        session()->flash('flash_message', __('messages.subdivision.created', ['name' => $budgetIndicator->name]));
 
         return redirect('/budget-indicators');
     }
@@ -77,7 +77,7 @@ class BudgetIndicatorsController extends Controller
         $this->validate($request, BudgetIndicator::$validateRules);
         $budgetIndicator->fill($request->all())->save();
 
-        session()->flash('flash_message', "Показатель бюджета \"$budgetIndicator->name\" был обновлен");
+        session()->flash('flash_message', __('messages.subdivision.updated', ['name' => $budgetIndicator->name]));
 
         return redirect('/budget-indicators');
     }
@@ -93,9 +93,9 @@ class BudgetIndicatorsController extends Controller
         try {
             $name = $budgetIndicator->name;
             $budgetIndicator->delete();
-            session()->flash('flash_message', "Показатель бюджета $name удален");
+            session()->flash('flash_message', __('messages.subdivision.deleted', ['name' => $name]));
         } catch (\Exception $e){
-            session()->flash('flash_message', "Показатель бюджета $budgetIndicator->name не может быть удален");
+            session()->flash('flash_message', __('messages.subdivision.cant_delete', ['name' => $budgetIndicator->name]));
             return back();
         }
         return redirect('/budget-indicators');

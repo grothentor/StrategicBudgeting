@@ -22,10 +22,15 @@ class Experiment extends CustomModel
         'budget' => 'required|numeric|min:0',
     ];
 
-    public static $kpiFields = [
-        'tax' => 'Налог',
-        'budget' => 'Собственные средства предприятия'
-    ];
+    public static $kpiFields;
+
+    public static function boot() {
+        parent::boot();
+        self::$kpiFields = [
+            'tax' => __('tax'),
+            'budget' => __('company_budget')
+        ];
+    }
 
     public function company() {
         return $this->belongsTo(Company::class);

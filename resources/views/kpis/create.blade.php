@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Новый КПЭ')
+@section('title', __('new_kpi'))
 
 @section('content')  
 
@@ -9,19 +9,19 @@
     {{ Form::open(array('url' => 'kpis/')) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Название') }}
+            {{ Form::label('name', __('')) }}
             {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
         </div>
+        {{--<div class="form-group">--}}
+            {{--{{ Form::label('holding_target_value', 'Целевое значение для холдинга') }}--}}
+            {{--{{ Form::text('holding_target_value', request('holding_target_value'), array('class' => 'form-control')) }}--}}
+        {{--</div>--}}
         <div class="form-group">
-            {{ Form::label('holding_target_value', 'Целевое значение для холдинга') }}
-            {{ Form::text('holding_target_value', request('holding_target_value'), array('class' => 'form-control')) }}
-        </div>
-        <div class="form-group">
-            {{ Form::label('companyTargetValue', 'Целевое значение для предприятия') }}
+            {{ Form::label('companyTargetValue', __('target_value')) }}
             {{ Form::text('companyTargetValue', request('companyTargetValue'), array('class' => 'form-control')) }}
         </div>
 
-        {{ Form::submit('Создать', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(__('create'), array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 

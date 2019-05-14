@@ -1,6 +1,6 @@
 @if('current' !== $budget->type)
     <div class="row text-center">
-        <a class="btn btn-default" href="{{ url("budgets/$budget->id/duplicate") }}">Дублировать</a>
+        <a class="btn btn-default" href="{{ url("budgets/$budget->id/duplicate") }}">@lang('duplicate')</a>
     </div>
 @endif
 {{ Form::open(['url' => "/budgets/$budget->id/budget-values",
@@ -11,22 +11,22 @@
 <table class="table table-striped table-bordered budgets-values-table">
     <thead>
     <tr>
-        <th rowspan="2">Id</th>
-        <th rowspan="2">Коментарий</th>
-        <th rowspan="2">Показатель бюджета</th>
-        <th colspan="2">Значение</th>
-        <th rowspan="2">Переодичность</th>
-        <th rowspan="2" title="Сколько периодов от начала формирования не будет использоваться показатель">Задержка</th>
-        <th rowspan="2" title="Количество использований показателя">Количество</th>
-        <th rowspan="2" title="Использование в конце периода">В конце</th>
+        <th rowspan="2">@lang('id')</th>
+        <th rowspan="2">@lang('comment')</th>
+        <th rowspan="2">@lang('budget_indicator')</th>
+        <th colspan="2">@lang('value')</th>
+        <th rowspan="2">@lang('periodicity')</th>
+        <th rowspan="2" title="@lang('delay_tooltip')">@lang('delay')</th>
+        <th rowspan="2" title="@lang('count_tooltip')">@lang('count')</th>
+        <th rowspan="2" title="@lang('in_the_end_tooltip')">@lang('in_the_end')</th>
         <th rowspan="2" class="actions-col">
-            {{ Form::label("checkAll", 'Удалить', ['title' => 'Отметить все']) }}
-            {{ Form::checkbox("checkAll", 'Отметить все', false, ['ng-click' => 'deleteAll($event)']) }}
+            {{ Form::label("checkAll", __('delete'), ['title' => __('check_all')]) }}
+            {{ Form::checkbox("checkAll", __('check_all'), false, ['ng-click' => 'deleteAll($event)']) }}
         </th>
     </tr>
     <tr>
-        <th title="Значение на единицу" class="singular-value-col">За ед.</th>
-        <th title="Количество используемых единиц" class="count-col">Кол-во</th>
+        <th title="@lang('per_unit_tooltip')" class="singular-value-col">@lang('per_unit')</th>
+        <th title="@lang('quantity_tooltip')" class="count-col">@lang('quantity')</th>
     </tr>
     </thead>
     <tbody>
@@ -117,7 +117,7 @@
         </tr>
     @endforeach
         <tr ng-repeat="newBudget in budgetValues" data-new-id="@{{ $index }}">
-            <td>Новый</td>
+            <td>@lang('new')</td>
             <td>
                 {!! Form::text('new[@{{ $index }}][comment]',
                     '',
@@ -195,14 +195,14 @@
                 ) !!}
             </td>
             <td>
-                <button class="btn btn-default" ng-click="deleteBudgetValue($index)">Удалить</button>
+                <button class="btn btn-default" ng-click="deleteBudgetValue($index)">@lang('delete')</button>
             </td>
         </tr>
     </tbody>
 </table>
 <div class="text-center row">
-    <button class="btn btn-default" ng-click="addNewBudgetValue($event)">Добавить значение</button>
-    {{ Form::submit('Сохранить', array('class' => 'btn btn-primary')) }}
+    <button class="btn btn-default" ng-click="addNewBudgetValue($event)">@lang('add_value')</button>
+    {{ Form::submit(__('save'), array('class' => 'btn btn-primary')) }}
 </div>
 {{ Form::close() }}
 

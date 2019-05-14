@@ -3,5 +3,5 @@
 @section('title', 404)
 
 @section('content')
-    <h2>Запрашиваемая страница не найдена</h2>
+    <h2>@lang('error404')</h2>
 @endsection

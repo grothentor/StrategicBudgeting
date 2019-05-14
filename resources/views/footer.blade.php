@@ -1,5 +1,5 @@
 <footer class="footer">
     <div class="container text-center text-muted">
-        Афанасьев Александр, {{ date('Y') }} г.
+        @lang('author'), @lang('year', ['year' => 2019])
     </div>
 </footer>

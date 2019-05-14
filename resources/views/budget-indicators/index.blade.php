@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Показатели бюджетов')
+@section('title', __('budget_indicators'))
 
 @section('content')  
 
@@ -9,10 +9,10 @@
 	<table class="table table-striped table-bordered">
 	    <thead>
 	        <tr>
-	            <td>Id</td>
-	            <td>Название</td>
-				<td>Тип</td>
-	            <td class="actions-col">Действия</td>
+	            <td>@lang('id')</td>
+	            <td>@lang('title')</td>
+				<td>@lang('type')</td>
+	            <td class="actions-col">@lang('actions')</td>
 	        </tr>
 	    </thead>
 	    <tbody>
@@ -23,10 +23,10 @@
 				<td>{{ __($value->type) }}</td>
 	            <td>
 	                <a class="btn btn-small btn-info pull-left" href="{{ url('budget-indicators/' . $value->id . '/edit/' ) }}">
-						Редактировать
+						@lang('edit')
 					</a>
 	                {{ Form::open(['url' => 'budget-indicators/' . $value->id, 'method' => 'delete', 'class' => 'pull-left']) }}
-				    	{{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
+				    	{{ Form::submit(__('delete'), array('class' => 'btn btn-danger')) }}
 					{{ Form::close() }}
 	            </td>
 	        </tr>

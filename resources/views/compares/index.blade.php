@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Сравнение КПЭ')
+@section('title', __('compares_title'))
 
 @section('content')
 
     @include('kpis.navigation')
     {{ Form::open(['url' => "/kpis/compares"]) }}
         @include('compares.table')
-    <div class="text-center row">
-        {{ Form::submit('Сохранить', array('class' => 'btn btn-primary')) }}
-    </div>
+        <div class="text-center row">
+            {{ Form::submit(__('save'), array('class' => 'btn btn-primary')) }}
+        </div>
     {{ Form::close() }}
 @endsection

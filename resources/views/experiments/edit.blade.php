@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Редактирование $experiment->name")
+@section('title', __('editing', ['name' => $experiment->name]))
 
 @section('content')  
 
@@ -9,30 +9,30 @@
     {{ Form::open(['url' => 'experiments/' . $experiment->id, 'method' => 'patch']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Название') }}
+            {{ Form::label('name', __('title')) }}
             {{ Form::text('name', $experiment->name, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('date', 'Дата начала варианта СБ') }}
+            {{ Form::label('date', __('experiment_start')) }}
             {{ Form::text('date', $experiment->date, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('tax', 'Налог (какой части лишается компания)') }}
+            {{ Form::label('tax', __('tax')) }}
             {{ Form::text('tax', $experiment->tax, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
-            {{ Form::label('budget', 'Личные средства подразделения') }}
+            {{ Form::label('budget', __('company_budget')) }}
             {{ Form::text('budget', $experiment->budget, array('class' => 'form-control')) }}
         </div>
         @include('experiments.budgets', ['edit' => true])
         @include('experiments.kpis', ['edit' => true])
     
-        {{ Form::submit('Обновить', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(__('update'), array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 
     {{ Form::open(['url' => 'experiments/' . $experiment->id, 'method' => 'delete']) }}
-    	{{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
+    	{{ Form::submit(__('delete'), array('class' => 'btn btn-danger')) }}
 	{{ Form::close() }}
 
 @endsection

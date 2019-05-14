@@ -90,7 +90,7 @@ class BudgetValuesController extends Controller
             BudgetValue::query()->whereIn('id', $deletedBudgetValuesIds)->delete();
         }
 
-        session()->flash('flash_message', 'Изменения сохранены');
+        session()->flash('flash_message', __('messages.saved'));
         return redirect("/budgets/$budget->id/budget-values");
     }
 

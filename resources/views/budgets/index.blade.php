@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Бюджеты для $subdivision->name")
+@section('title', __('budgets_title', ['subdivision' => $subdivision->name]))
 
 @section('content')
     @include('budgets.navigation')
@@ -15,7 +15,7 @@
         'budgetValues' => $currentBudget->budgetValues
     ])
 
-    <h2>Варианты бюджетов</h2>
+    <h2>@lang('budget_variants')</h2>
 
 	@include('budgets.table')
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "$subdivision->name -> $budget->name")
+@section('title', __('budget_title', ['subdivision' => $subdivision->name, 'budget' => $budget->name]))
 
 @section('content')
 

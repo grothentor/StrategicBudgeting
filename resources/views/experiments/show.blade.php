@@ -24,31 +24,31 @@
 
     <div class="jumbotron text-center">
         <p>
-            <strong>Дата начала:</strong> {{ $experiment->date }}<br>
-            <strong>Налог:</strong> {{ $experiment->tax * 100 }}%<br>
-            <strong>Личные средства:</strong> {{ $experiment->budget }}<br>
-            <strong>Необходимо обновить:</strong> {{ $experiment->calculated ? 'Нет' : 'Да' }}<br>
+            <strong>@lang('start_date'):</strong> {{ $experiment->date }}<br>
+            <strong>@lang('tax'):</strong> {{ $experiment->tax * 100 }}%<br>
+            <strong>@lang('company_budget'):</strong> {{ $experiment->budget }}<br>
+            <strong>@lang('needs_refresh'):</strong> {{ $experiment->calculated ? __('no') : __('yes') }}<br>
         </p>
     </div>
     @if (!isset($pdf) || !$pdf)
         <div class="row text-center">
             <a class="btn btn-small btn-default print-link" href="{{ url("experiments/$experiment->id/print/" ) }}">
-                Сохранить
+                @lang('save')
             </a>
             <a class="btn btn-small btn-default" href="{{ url("experiments/$experiment->id/calculate/" ) }}">
-                Поиск СБ
+                @lang('calculate_experiment')
             </a>
             <a class="btn btn-small btn-default" href="{{ url("experiments/$experiment->id/compares/" ) }}">
-                Сравнения
+                @lang('compares')
             </a>
             <a class="btn btn-small btn-info" href="{{ url("experiments/$experiment->id/edit/" ) }}">
-                Редактировать
+                @lang('edit')
             </a>
             <a class="btn btn-small btn-info" href="{{ url("experiments/$experiment->id/duplicate/" ) }}">
-                Копировать
+                @lang('copy')
             </a>
             {{ Form::open(['url' => 'experiments/' . $experiment->id, 'method' => 'delete', 'class' => 'delete-form']) }}
-            {{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
+            {{ Form::submit(__('delete'), array('class' => 'btn btn-danger')) }}
             {{ Form::close() }}
         </div>
     @endif

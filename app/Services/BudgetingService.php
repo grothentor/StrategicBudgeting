@@ -38,7 +38,7 @@ class BudgetingService
             }
         }
 
-        if (!$result->count()) return back()->withErrors('Задача не имеет решения. На использование заданных бюджетов не хватает средств. Добавьте реальные бюджеты');
+        if (!$result->count()) return back()->withErrors(__('messages.no_solution'));
         $experiment->answerBudgets($result['variant']);
         $experiment->resultKpis($result['kpisValues']);
         $experiment->calculated(true);
@@ -192,7 +192,7 @@ class BudgetingService
         $importance = $kpis->reduce(function ($result, &$kpi) {
             return $result + $kpi->pivot->importance;
         }, 0);
-        if (abs($importance - 1) > config('app.currency')) return back()->withErrors('Обновите значения приоритетов KPI');
+        if (abs($importance - 1) > config('app.currency')) return back()->withErrors(__('messages.refresh_priority'));
         $this->currentBudget = $this->subdivisions->reduce(function ($result, $subdivision) {
             if (!count($result['values'])) {
                 $result['values'] = $subdivision['current']['values'];
