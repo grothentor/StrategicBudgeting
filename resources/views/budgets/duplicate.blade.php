@@ -9,7 +9,7 @@
     {{ Form::open(array('url' => "/budgets/$budget->id/duplicate")) }}
 
     <div class="form-group">
-        {{ Form::label('name', __('title') }}
+        {{ Form::label('name', __('title')) }}
         {{ Form::text('name', request('name'), array('class' => 'form-control')) }}
     </div>
 

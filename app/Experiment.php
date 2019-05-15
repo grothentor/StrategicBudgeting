@@ -10,6 +10,7 @@ namespace App;
 
 
 use Illuminate\Support\Collection;
+use phpDocumentor\Reflection\Types\Self_;
 
 class Experiment extends CustomModel
 {
@@ -22,14 +23,17 @@ class Experiment extends CustomModel
         'budget' => 'required|numeric|min:0',
     ];
 
-    public static $kpiFields;
+    private static $kpiFields;
 
-    public static function boot() {
-        parent::boot();
-        self::$kpiFields = [
-            'tax' => __('tax'),
-            'budget' => __('company_budget')
-        ];
+    public static function getKpiFields() {
+        if (!self::$kpiFields) {
+            self::$kpiFields = [
+                'tax' => __('tax'),
+                'budget' => __('company_budget')
+            ];
+        }
+
+        return self::$kpiFields;
     }
 
     public function company() {

@@ -14,7 +14,7 @@ class Kpi extends CustomModel
 
     public static $validateRules = [
         'name' => 'required',
-        'holding_target_value' => 'required|numeric',
+//        'holding_target_value' => 'required|numeric',
         'companyTargetValue' => 'required|numeric',
     ];
 
@@ -72,7 +72,15 @@ class Kpi extends CustomModel
         try {
             $kpi = eval($transformationFunction);
         } catch (\Exception $exception) {
-            $kpi = 9999999999999999;
+            switch ($exception->getMessage()) {
+                case 'Division by zero':
+                    $kpi = 0;
+                    break;
+                default:
+                    $kpi = 9999999999999999;
+                    throw $exception;
+                    break;
+            }
         }
         return $kpi;
     }
@@ -99,17 +107,12 @@ class Kpi extends CustomModel
     private function getTransformationValue(string $side, $transformation, $transformations, $budgetVariable) {
         $sideTransformation = $side . '_transformation_id';
         $sideBudget = $side . '_budget_indicator_id';
-        $companyFields = array_keys(Experiment::$kpiFields);
+        $companyFields = array_keys(Experiment::getKpiFields());
 
         if ($transformation->$sideTransformation) {
             if (!isset($transformations[$transformation->$sideTransformation]))
                 throw new \Exception("bad $side transaction id");
             $value = $transformations[$transformation->$sideTransformation]['value'];
-            if (!empty($value)) {
-                foreach ($companyFields as $companyField) {
-                    $value = str_replace("%$companyField%", "\$company['$companyField']", $value);
-                }
-            }
             if (in_array($transformation->operation, ['*', '/']) &&
                 in_array($transformations[$transformation->$sideTransformation]['operation'], ['+', '-', '/'])) {
                 $value = "($value)";
@@ -117,6 +120,12 @@ class Kpi extends CustomModel
         } elseif ($transformation->$sideBudget) {
             $value = "\${$budgetVariable}[{$transformation->$sideBudget}]";
         } else $value = $transformation->value;
+
+        if (!empty($value)) {
+            foreach ($companyFields as $companyField) {
+                $value = str_replace("%$companyField%", "\$company['$companyField']", $value);
+            }
+        }
 
         return $value;
     }
@@ -144,7 +153,7 @@ class Kpi extends CustomModel
                 $transformationFunction
             );
         }
-        foreach (Experiment::$kpiFields as $key => $kpiField) {
+        foreach (Experiment::getKpiFields() as $key => $kpiField) {
             $transformationFunction = str_replace(
                 '$company[\'start' . title_case($key) . "']",
                 __('start_value', ['name' => $kpiField]),

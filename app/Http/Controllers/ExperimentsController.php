@@ -159,7 +159,7 @@ class ExperimentsController extends Controller {
         $company = auth()->user();
         $this->validate($request, Experiment::$validateRules);
         $fields = $request->all();
-        if (!isset($fields['budgets']) || count($fields['budgets']) !== Subdivision::query()->default()->get()->count())
+        if (!isset($fields['budgets']) /*|| count($fields['budgets']) !== Subdivision::query()->default()->get()->count()*/)
             return back()
                 ->withInput()
                 ->withErrors([__('messages.at_least_1_budget')]);

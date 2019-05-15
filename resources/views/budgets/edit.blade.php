@@ -12,7 +12,7 @@
             {{ Form::label('name', __('title')) }}
             {{ Form::text('name', $budget->name, array('class' => 'form-control')) }}
         </div>
-        {{ Form::submit(__('update), array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(__('update'), array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 

@@ -63,7 +63,7 @@ class BudgetValuesController extends Controller
                 }
             }
         }
-        if (count($newBudgetValues)) {
+        if ($newBudgetValues && count($newBudgetValues)) {
             $newBudgetValues = array_map(function ($budgetValue) use ($budget) {
                 $budgetValue['budget_id'] = $budget->id;
                 $budgetValue['created_at'] = $budgetValue['updated_at'] = Carbon::now();
