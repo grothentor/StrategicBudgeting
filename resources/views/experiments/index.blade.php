@@ -12,7 +12,7 @@
 	            <th>@lang('id')</th>
 	            <th>@lang('title')</th>
 				<th>@lang('experiment_start')</th>
-				<th>@lang('tax_title')</th>
+				{{--<th>@lang('tax_title')</th>--}}
 				<th>@lang('company_budget')</th>
 	            <th class="actions-col">@lang('actions')</th>
 	        </tr>
@@ -23,7 +23,7 @@
 	            <td>{{ $value->id }}</td>
 	            <td><a class="" href="{{ url('experiments/' . $value->id) }}">{{ $value->name }}</a></td>
 				<td>{{ $value->date }}</td>
-				<td>{{ $value->tax * 100 }}%</td>
+{{--				<td>{{ $value->tax * 100 }}%</td>--}}
 				<td>{{ $value->budget }}</td>
 	            <td>
 	                <a class="btn btn-small btn-default pull-left" href="{{ url('experiments/' . $value->id . '/compares/' ) }}">

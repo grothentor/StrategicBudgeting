@@ -10,6 +10,6 @@
 
     <h3><a href="{{ url("subdivisions/$subdivision->id/budgets") }}">@lang('budgets')</a></h3>
     <a class="btn btn-default" href="{{ url("subdivisions/$subdivision->id/budgets/create") }}">@lang('new_budget', ['subdivision' => $subdivision->name])</a>
-    @include('budgets.table', ['budgets' => $subdivision->budgets])
+    @include('budgets.table', ['budgets' => $subdivision->budgets->where('type', '<>', 'current')])
 
 @endsection

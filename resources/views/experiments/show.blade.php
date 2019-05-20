@@ -25,7 +25,7 @@
     <div class="jumbotron text-center">
         <p>
             <strong>@lang('start_date'):</strong> {{ $experiment->date }}<br>
-            <strong>@lang('tax'):</strong> {{ $experiment->tax * 100 }}%<br>
+            {{--<strong>@lang('tax'):</strong> {{ $experiment->tax * 100 }}%<br>--}}
             <strong>@lang('company_budget'):</strong> {{ $experiment->budget }}<br>
             <strong>@lang('needs_refresh'):</strong> {{ $experiment->calculated ? __('no') : __('yes') }}<br>
         </p>
@@ -52,8 +52,8 @@
             {{ Form::close() }}
         </div>
     @endif
-    @include('experiments.budgets', ['edit' => false])
     @include('experiments.kpis', ['edit' => false])
+    @include('experiments.budgets', ['edit' => false])
 
     @foreach($kpiCharts as $chart)
         <div class="row">
